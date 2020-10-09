@@ -1,13 +1,16 @@
 import React from "react";
-import { Container, CssBaseline, makeStyles } from "@material-ui/core";
+import { CssBaseline, makeStyles } from "@material-ui/core";
+import Layout from "./components/Layouts/Layout";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     minHeight: "100vh",
   },
+  layout: {},
 }));
 
 function App() {
@@ -15,7 +18,9 @@ function App() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Container maxWidth="xl"></Container>
+      <Layout>
+        <p>Tess</p>
+      </Layout>
     </div>
   );
 }
