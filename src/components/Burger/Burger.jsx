@@ -48,17 +48,20 @@ const useStyle = makeStyles(theme => ({
 const Burger = props => {
   const burgerStyles = useStyle();
 
+  const { ingredients } = props;
+  console.log(ingredients);
+  const transformIngredients = Object.keys(ingredients).map(igKey => {
+    return [...Array(ingredients[igKey])].map((_, i) => {
+      return <BurgerIngredients key={igKey + i} type={igKey} />;
+    });
+  });
+
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
         <Box mx="auto" className={burgerStyles.box}>
           <BurgerIngredients type="bread-top" />
-          <BurgerIngredients type="salad" />
-          <BurgerIngredients type="meat" />
-          <BurgerIngredients type="tomato" />
-          <BurgerIngredients type="cheese" />
-          <BurgerIngredients type="meat" />
-          <BurgerIngredients type="salad" />
+          {transformIngredients}
           <BurgerIngredients type="bread-bottom" />
         </Box>
       </Card>

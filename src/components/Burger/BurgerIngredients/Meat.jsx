@@ -6,7 +6,6 @@ const useStyles = makeStyles(theme => ({
   img: {
     position: "relative",
     zIndex: 5,
-    position: "relative",
   },
 }));
 
