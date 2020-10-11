@@ -1,7 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import BurgerIngredients from "./BurgerIngredients/BurgerIngredients";
-import { Box, Card, Container, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Card,
+  Container,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -43,6 +48,13 @@ const useStyle = makeStyles(theme => ({
       maxWidth: "50%",
     },
   },
+
+  body1: {
+    fontSize: "1rem",
+    marginTop: "5px",
+    marginBottom: "5px",
+    textAlign: "center",
+  },
 }));
 
 const Burger = props => {
@@ -50,11 +62,28 @@ const Burger = props => {
 
   const { ingredients } = props;
   console.log(ingredients);
-  const transformIngredients = Object.keys(ingredients).map(igKey => {
-    return [...Array(ingredients[igKey])].map((_, i) => {
-      return <BurgerIngredients key={igKey + i} type={igKey} />;
-    });
+  let transformIngredients = Object.keys(ingredients).map(igKey => {
+    return [...Array(ingredients[igKey])]
+      .map((_, i) => {
+        return <BurgerIngredients key={igKey + i} type={igKey} />;
+      })
+      .reduce((arr, el) => {
+        return arr.concat(el);
+      }, []);
   });
+
+  if (transformIngredients.length === 0) {
+    transformIngredients = (
+      <Typography
+        color="error"
+        className={burgerStyles.body1}
+        component="h4"
+        variant="body1"
+      >
+        Please start adding ingredients!
+      </Typography>
+    );
+  }
 
   return (
     <Container className={burgerStyles.root}>
@@ -68,7 +97,5 @@ const Burger = props => {
     </Container>
   );
 };
-
-Burger.propTypes = {};
 
 export default Burger;

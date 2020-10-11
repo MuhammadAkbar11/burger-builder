@@ -34,7 +34,6 @@ const BurgerIngredients = props => {
       ingredient = null;
       break;
   }
-  console.log(ingredient);
   return ingredient;
 };
 
