@@ -2,14 +2,15 @@ import React from "react";
 import { CssBaseline, makeStyles } from "@material-ui/core";
 import Layout from "./components/Layouts/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+import Test from "./containers/Test";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // display: "flex",
-    // flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+
     minHeight: "100vh",
+    position: "relative",
   },
   layout: {},
 }));

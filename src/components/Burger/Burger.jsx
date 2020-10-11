@@ -10,32 +10,45 @@ import {
 
 const useStyle = makeStyles(theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    // display: "flex",
+    // flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
     position: "relative",
-    minHeight: "70vh",
+
     width: "100%",
+    height: "100%",
+    padding: theme.spacing(3),
+    overflowY: "scroll",
+    "&::-webkit-scrollbar ": {
+      left: "0px",
+      width: "10px",
+      display: "none",
+      backgroundColor: "#f2f2f2",
+    },
+
+    // /* Track */
+    // "&::-webkit-scrollbar-track": {
+    //   boxShadow: "inset 0 0 5px grey",
+    //   borderRadius: "10px ",
+    // },
+
+    // "&::-webkit-scrollbar-thumb  ": {
+    //   background: "red",
+    //   borderRadius: "10px",
+    // },
   },
 
   card: {
     padding: theme.spacing(5),
     margin: "auto",
-    [theme.breakpoints.up("lg")]: {
-      maxWidth: 500,
-    },
-    [theme.breakpoints.down("lg")]: {
-      maxWidth: 500,
-    },
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "90%",
-    },
+    position: "relative",
+    height: "100%",
+    // boxShadow: "0 0 0.3rem #333",
   },
   box: {
     [theme.breakpoints.up("lg")]: {
-      maxWidth: "50%",
+      maxWidth: "35%",
     },
 
     [theme.breakpoints.only("md")]: {
@@ -88,7 +101,7 @@ const Burger = props => {
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
-        <Box mx="auto" className={burgerStyles.box}>
+        <Box m="auto" className={burgerStyles.box}>
           <BurgerIngredients type="bread-top" />
           {transformIngredients}
           <BurgerIngredients type="bread-bottom" />
