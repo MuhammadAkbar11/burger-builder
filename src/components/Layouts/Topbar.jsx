@@ -15,26 +15,29 @@ const useStyles = makeStyles(theme =>
       marginRight: theme.spacing(2),
     },
     appBar: {
-      backgroundColor: "#ffa45c",
-      boxShadow: "0 0 0.2rem #5d5d5a",
+      paddingTop: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+      backgroundColor: "#212121",
+      borderBottom: "1px solid #333",
       "& > *": {
-        color: "#5d5d5a",
+        color: "#dae1e7",
       },
     },
     title: {
       flexGrow: 1,
     },
     link: {
-      color: "#5d5d5a",
+      color: "#dae1e7",
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
       fontSize: "1rem",
       "&:hover": {
-        color: "#333",
+        color: "#f5b316",
         opacity: "0.8",
       },
       "&.active": {
-        color: "#333",
+        color: "#f5b316",
         fontWeight: "600",
       },
     },

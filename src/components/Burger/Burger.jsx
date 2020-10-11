@@ -10,16 +10,13 @@ import {
 
 const useStyle = makeStyles(theme => ({
   root: {
-    // display: "flex",
-    // flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
     position: "relative",
 
     width: "100%",
     height: "100%",
     padding: theme.spacing(3),
     overflowY: "scroll",
+    scrollbarWidth: "none",
     "&::-webkit-scrollbar ": {
       left: "0px",
       width: "10px",
@@ -40,11 +37,12 @@ const useStyle = makeStyles(theme => ({
   },
 
   card: {
-    padding: theme.spacing(5),
+    backgroundColor: "transparent",
+
     margin: "auto",
     position: "relative",
     height: "100%",
-    // boxShadow: "0 0 0.3rem #333",
+    boxShadow: "none",
   },
   box: {
     [theme.breakpoints.up("lg")]: {
@@ -52,10 +50,10 @@ const useStyle = makeStyles(theme => ({
     },
 
     [theme.breakpoints.only("md")]: {
-      maxWidth: "55%",
+      maxWidth: "40%",
     },
     [theme.breakpoints.only("sm")]: {
-      maxWidth: "45%",
+      maxWidth: "35%",
     },
     [theme.breakpoints.only("xs")]: {
       maxWidth: "50%",

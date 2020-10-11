@@ -2,20 +2,44 @@ import React, { Component } from "react";
 import Burger from "../../components/Burger/Burger";
 
 import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
+import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    backgroundColor: "#212121",
     flexFlow: 1,
-    overflow: "hidden",
+    overflowY: "hidden",
     width: "100%",
     height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      overflowY: "scroll",
+      scrollbarColor: "#f5b316 #333",
+
+      "&::-webkit-scrollbar ": {
+        width: "10px",
+        backgroundColor: "#333",
+      },
+
+      "&::-webkit-scrollbar-thumb  ": {
+        background: "#f5b316",
+        borderRadius: "2px",
+      },
+    },
   },
   container: {
     padding: theme.spacing(3),
+
     height: "100%",
   },
   item: {
     height: "100%",
+    width: "100%",
+    paddingLeft: theme.spacing(3),
+    "&.right": {
+      [theme.breakpoints.up("md")]: {
+        borderLeft: "1px solid #333",
+      },
+    },
   },
 }));
 
@@ -39,11 +63,11 @@ class BurgerBuilder extends Component {
     return (
       <Container className={classes.root}>
         <Grid container className={`${classes.container}`}>
-          <Grid item md={8} className={classes.item}>
+          <Grid item md={7} lg={8} className={classes.item}>
             <Burger ingredients={ingredients} />
           </Grid>
-          <Grid item md={4} className={classes.item}>
-            <Paper />
+          <Grid item md={5} lg={4} className={`${classes.item} right`}>
+            <BuildControls />
           </Grid>
         </Grid>
       </Container>
