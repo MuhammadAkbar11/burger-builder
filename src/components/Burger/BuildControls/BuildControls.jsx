@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { Container, makeStyles, Paper } from "@material-ui/core";
 import BuildControl from "./BuildControl.jsx/BuildControl";
 
@@ -58,6 +60,7 @@ const BuildControls = props => {
         {controls.map((item, index) => {
           return (
             <BuildControl
+              added={() => props.ingredientAdded(item.type)}
               key={`${item.label}${index + 1}`}
               icon={item.img}
               label={item.label}
@@ -72,6 +75,11 @@ const BuildControls = props => {
       </Paper>
     </Container>
   );
+};
+
+BuildControls.propTypes = {
+  ingredientAdded: PropTypes.func,
+  ingredientRemove: PropTypes.func,
 };
 
 export default BuildControls;

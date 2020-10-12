@@ -41,7 +41,7 @@ const useStyle = makeStyles(theme => ({
 
     margin: "auto",
     position: "relative",
-    height: "100%",
+    height: "max-content",
     boxShadow: "none",
   },
   box: {

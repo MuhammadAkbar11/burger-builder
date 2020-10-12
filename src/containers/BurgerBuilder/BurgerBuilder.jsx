@@ -43,22 +43,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const INGREDIENT_PRICES = {
+  salad: 0.5,
+  meat: 1.3,
+  cheese: 0.4,
+  tomato: 0.2,
+};
+
 class BurgerBuilder extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       ingredients: {
-        salad: 1,
-        meat: 2,
-        tomato: 1,
-        cheese: 1,
+        salad: 0,
+        meat: 0,
+        tomato: 0,
+        cheese: 0,
       },
+      totalPrice: "4",
     };
   }
 
   addIngredientHandler = type => {
-    console.log(type);
+    const oldCount = this.state.ingredients[type];
+    const updatedCount = oldCount + 1;
+    const updatedIngredients = {
+      ...this.state.ingredients,
+    };
+    updatedIngredients[type] = updatedCount;
+    const priceAddition = INGREDIENT_PRICES[type];
+    const oldPrice = this.state.totalPrice;
+    const newPrice = oldPrice + priceAddition;
+
+    this.setState({
+      totalPrice: newPrice,
+      ingredients: updatedIngredients,
+    });
   };
 
   removeIngredientHandler = type => {
@@ -75,7 +96,7 @@ class BurgerBuilder extends Component {
             <Burger ingredients={ingredients} />
           </Grid>
           <Grid item md={5} lg={4} className={`${classes.item} right`}>
-            <BuildControls />
+            <BuildControls ingredientAdded={this.addIngredientHandler} />
           </Grid>
         </Grid>
       </Container>
