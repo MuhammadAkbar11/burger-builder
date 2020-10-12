@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Container, makeStyles, Paper } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  makeStyles,
+  Paper,
+  styled,
+} from "@material-ui/core";
 import BuildControl from "./BuildControl.jsx/BuildControl";
 
 import meatImg from "../../../assets/svg/meat.svg";
@@ -53,11 +59,42 @@ const useStyle = makeStyles(theme => ({
     width: "100%",
     backgroundColor: "transparent",
     boxShadow: "none",
+    [theme.breakpoints.only("sm")]: {
+      width: "80%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      paddingBottom: "4rem",
+    },
   },
 }));
 
+const CheckoutButton = styled(Button)({
+  backgroundColor: "#f5b316",
+  color: "#212121",
+  marginLeft: "15px",
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  width: "100%",
+  marginTop: "2rem",
+
+  "&:hover": {
+    backgroundColor: "#f5b216c9",
+  },
+  "&:active, &:focus": {
+    backgroundColor: "#f5b216c9",
+  },
+
+  "&:disabled": {
+    transform: "scale(0.9)",
+    color: "f2f2f2",
+    backgroundColor: "#f5b216c9",
+  },
+});
+
 const BuildControls = props => {
   const classes = useStyle();
+  console.log(props.purchase);
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
@@ -75,6 +112,13 @@ const BuildControls = props => {
             />
           );
         })}
+        <CheckoutButton
+          size="large"
+          variant="contained"
+          disabled={!props.purchase ? true : false}
+        >
+          Order now!
+        </CheckoutButton>
       </Paper>
     </Container>
   );
@@ -84,6 +128,7 @@ BuildControls.propTypes = {
   ingredientAdded: PropTypes.func,
   ingredientRemove: PropTypes.func,
   disabled: PropTypes.object,
+  purchase: PropTypes.bool,
 };
 
 export default BuildControls;

@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 import { Box, Button, makeStyles, styled, Typography } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,6 +13,11 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     paddingTop: theme.spacing(1),
     width: "100%",
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      lineHeight: "2rem",
+    },
   },
 
   labelContent: {
@@ -40,6 +47,14 @@ const useStyles = makeStyles(theme => ({
 
   marginLeft: {
     marginLeft: "4px",
+  },
+
+  img: {
+    width: 38,
+
+    [theme.breakpoints.down("sm")]: {
+      width: 55,
+    },
   },
 }));
 
@@ -81,10 +96,9 @@ const BuildControl = props => {
 
   const tomatoIcon = (
     <div>
-      <img width="38" src={props.icon} alt="" />
+      <img className={className.img} src={props.icon} alt="" />
       <img
-        width="38"
-        className={className.marginLeft}
+        className={`${className.img} ` + className.marginLeft}
         src={props.icon}
         alt=""
       />
@@ -106,14 +120,15 @@ const BuildControl = props => {
       </Box>
       <Box className={`${className.actions} `}>
         <ButtonControlLess
+          size="small"
           onClick={props.remove}
           className={`less ${props.disabled ? "disabled" : ""}`}
           color="primary"
         >
-          Less
+          <RemoveIcon />
         </ButtonControlLess>
-        <ButtonControlAdd color="primary" onClick={props.added}>
-          More
+        <ButtonControlAdd size="small" color="primary" onClick={props.added}>
+          <AddIcon />{" "}
         </ButtonControlAdd>
       </Box>
     </div>

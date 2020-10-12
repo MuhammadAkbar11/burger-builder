@@ -12,7 +12,6 @@ import {
 const useStyle = makeStyles(theme => ({
   root: {
     position: "relative",
-
     width: "100%",
     height: "100%",
     padding: theme.spacing(3),
@@ -23,6 +22,10 @@ const useStyle = makeStyles(theme => ({
       width: "10px",
       display: "none",
       backgroundColor: "#f2f2f2",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      height: "320px",
     },
 
     // /* Track */
@@ -58,10 +61,10 @@ const useStyle = makeStyles(theme => ({
       maxWidth: "40%",
     },
     [theme.breakpoints.only("sm")]: {
-      maxWidth: "35%",
+      maxWidth: "37%",
     },
     [theme.breakpoints.only("xs")]: {
-      maxWidth: "50%",
+      maxWidth: "55%",
     },
   },
 
@@ -74,7 +77,7 @@ const useStyle = makeStyles(theme => ({
     opacity: "0.9",
   },
   textprice: {
-    fontSize: "1.5em",
+    fontSize: "1.2em",
     color: "#DAE1C8",
     marginTop: "auto",
     "& .price": {
@@ -118,9 +121,10 @@ const Burger = props => {
           {transformedIngredients}
           <BurgerIngredients type="bread-bottom" />
         </CardContent>
-        <Box>
+        <Box mt={4}>
           <Typography className={burgerStyles.textprice}>
-            Total <span className={`price`}> : Rp. {props.totalPrice}</span>
+            Current Price{" "}
+            <span className={`price`}> : Rp. {props.totalPrice}</span>
           </Typography>
         </Box>
       </Card>
