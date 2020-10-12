@@ -3,6 +3,7 @@ import BurgerIngredients from "./BurgerIngredients/BurgerIngredients";
 import {
   Box,
   Card,
+  CardContent,
   Container,
   makeStyles,
   Typography,
@@ -41,10 +42,14 @@ const useStyle = makeStyles(theme => ({
 
     margin: "auto",
     position: "relative",
-    height: "max-content",
+    minHeight: "100%",
     boxShadow: "none",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: " center",
   },
-  box: {
+  cardContent: {
     [theme.breakpoints.up("lg")]: {
       maxWidth: "35%",
     },
@@ -61,48 +66,62 @@ const useStyle = makeStyles(theme => ({
   },
 
   body1: {
+    color: "#f5b316",
     fontSize: "1rem",
     marginTop: "5px",
     marginBottom: "5px",
     textAlign: "center",
+    opacity: "0.9",
+  },
+  textprice: {
+    fontSize: "1.5em",
+    color: "#DAE1C8",
+    marginTop: "auto",
+    "& .price": {
+      color: "#F5B316",
+      marginLeft: "5px",
+    },
   },
 }));
 
 const Burger = props => {
   const burgerStyles = useStyle();
 
-  const { ingredients } = props;
-  console.log(ingredients);
-  let transformIngredients = Object.keys(ingredients).map(igKey => {
-    return [...Array(ingredients[igKey])]
-      .map((_, i) => {
-        return <BurgerIngredients key={igKey + i} type={igKey} />;
-      })
-      .reduce((arr, el) => {
-        return arr.concat(el);
-      }, []);
-  });
+  // const { ingredients } = props;
 
-  if (transformIngredients.length === 0) {
-    transformIngredients = (
-      <Typography
-        color="error"
-        className={burgerStyles.body1}
-        component="h4"
-        variant="body1"
-      >
+  let transformedIngredients = Object.keys(props.ingredients)
+    .map(igKey => {
+      return [...Array(props.ingredients[igKey])].map((_, i) => {
+        return <BurgerIngredients key={igKey + i} type={igKey} />;
+      });
+    })
+    .reduce((arr, el) => {
+      return arr.concat(el);
+    }, []);
+
+  if (transformedIngredients.length == 0) {
+    console.log("okk");
+    transformedIngredients = (
+      <Typography className={burgerStyles.body1} component="h4" variant="body1">
         Please start adding ingredients!
       </Typography>
     );
   }
 
+  console.log(transformedIngredients.length);
+
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
-        <Box m="auto" className={burgerStyles.box}>
+        <CardContent m="auto" className={burgerStyles.cardContent}>
           <BurgerIngredients type="bread-top" />
-          {transformIngredients}
+          {transformedIngredients}
           <BurgerIngredients type="bread-bottom" />
+        </CardContent>
+        <Box>
+          <Typography className={burgerStyles.textprice}>
+            Total <span className={`price`}> : Rp. {props.totalPrice}</span>
+          </Typography>
         </Box>
       </Card>
     </Container>

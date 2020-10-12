@@ -14,21 +14,25 @@ const controls = [
     label: "Salad",
     type: "salad",
     img: saladImg,
+    price: 6000,
   },
   {
     label: "Meat",
     type: "meat",
     img: meatImg,
+    price: 12000,
   },
   {
     label: "Tomato",
     type: "tomato",
     img: tomatoImg,
+    price: 3000,
   },
   {
     label: "Cheese",
     type: "cheese",
     img: cheeseImg,
+    price: 5000,
   },
 ];
 
@@ -61,17 +65,16 @@ const BuildControls = props => {
           return (
             <BuildControl
               added={() => props.ingredientAdded(item.type)}
+              remove={() => props.ingredientRemove(item.type)}
               key={`${item.label}${index + 1}`}
               icon={item.img}
               label={item.label}
               type={item.type}
+              price={item.price}
+              disabled={props.disabled[item.type]}
             />
           );
         })}
-        {/* <BuildControl icon={meatImg} label="Meat" />
-        <BuildControl icon={saladImg} label="Salad" />
-        <BuildControl icon={tomatoImg} label="Tomato" />
-        <BuildControl icon={cheeseImg} label="Cheese" /> */}
       </Paper>
     </Container>
   );
@@ -80,6 +83,7 @@ const BuildControls = props => {
 BuildControls.propTypes = {
   ingredientAdded: PropTypes.func,
   ingredientRemove: PropTypes.func,
+  disabled: PropTypes.object,
 };
 
 export default BuildControls;

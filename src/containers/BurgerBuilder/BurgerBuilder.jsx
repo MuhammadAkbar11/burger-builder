@@ -44,10 +44,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const INGREDIENT_PRICES = {
-  salad: 0.5,
-  meat: 1.3,
-  cheese: 0.4,
-  tomato: 0.2,
+  salad: 6000,
+  meat: 12000,
+  cheese: 5000,
+  tomato: 3000,
 };
 
 class BurgerBuilder extends Component {
@@ -61,7 +61,7 @@ class BurgerBuilder extends Component {
         tomato: 0,
         cheese: 0,
       },
-      totalPrice: "4",
+      totalPrice: 7000,
     };
   }
 
@@ -72,8 +72,9 @@ class BurgerBuilder extends Component {
       ...this.state.ingredients,
     };
     updatedIngredients[type] = updatedCount;
-    const priceAddition = INGREDIENT_PRICES[type];
-    const oldPrice = this.state.totalPrice;
+    const priceAddition = +INGREDIENT_PRICES[type];
+    const oldPrice = +this.state.totalPrice;
+    //prettier-disabled
     const newPrice = oldPrice + priceAddition;
 
     this.setState({
@@ -83,20 +84,49 @@ class BurgerBuilder extends Component {
   };
 
   removeIngredientHandler = type => {
-    console.log("remove ", type);
+    const oldCount = this.state.ingredients[type];
+    const updatedCount = oldCount - 1;
+    if (oldCount <= 0) {
+      return;
+    }
+    const updatedIngredients = {
+      ...this.state.ingredients,
+    };
+    updatedIngredients[type] = updatedCount;
+    const priceDeduction = +INGREDIENT_PRICES[type];
+    const oldPrice = +this.state.totalPrice;
+    const newPrice = oldPrice - priceDeduction;
+
+    this.setState({
+      totalPrice: newPrice,
+      ingredients: updatedIngredients,
+    });
   };
 
   render() {
     const { ingredients } = this.state;
     const { classes } = this.props;
+
+    const disabledInfo = { ...ingredients };
+    for (const key in disabledInfo) {
+      disabledInfo[key] = disabledInfo[key] <= 0;
+    }
+
     return (
       <Container className={classes.root}>
         <Grid container className={`${classes.container}`}>
           <Grid item md={7} lg={8} className={classes.item}>
-            <Burger ingredients={ingredients} />
+            <Burger
+              ingredients={ingredients}
+              totalPrice={this.state.totalPrice}
+            />
           </Grid>
           <Grid item md={5} lg={4} className={`${classes.item} right`}>
-            <BuildControls ingredientAdded={this.addIngredientHandler} />
+            <BuildControls
+              disabled={disabledInfo}
+              ingredientRemove={this.removeIngredientHandler}
+              ingredientAdded={this.addIngredientHandler}
+            />
           </Grid>
         </Grid>
       </Container>

@@ -1,28 +1,43 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import { Button, makeStyles, styled, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles, styled, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+    paddingTop: theme.spacing(1),
     width: "100%",
   },
-  label: {
-    // color: "#DAE1E7",
-    display: "flex",
-    justifyContent: "flex-start",
 
+  labelContent: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
     flex: 1,
-    "& span": {
-      marginLeft: ".9rem",
-      color: "#f5f5f5",
-      fontSize: "0.9rem",
-    },
+    paddingTop: theme.spacing(2),
   },
+  label: {
+    textAlign: "left",
+    marginTop: "9px",
+    marginLeft: ".1rem",
+    color: "#f5f5f5",
+    fontSize: "0.9rem",
+  },
+  labelPrice: {
+    marginLeft: "5px",
+    fontSize: "0.85rem",
+    color: "#8C8C8C",
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flex: 1,
+  },
+
   marginLeft: {
     marginLeft: "4px",
   },
@@ -50,10 +65,15 @@ const ButtonControlLess = styled(Button)({
     color: "#f2f2f2",
     // backgroundColor: "#70706fea",
   },
-  "&:active, &:focus": {
-    color: "#f2f2f2",
-    backgroundColor: "#f5b316",
+  "&.disabled": {
+    pointerEvents: "auto",
+    cursor: "not-allowed",
+    opacity: "0.5",
   },
+  // "&:active, &:focus": {
+  //   color: "#f2f2f2",
+  //   backgroundColor: "#f5b216c9",
+  // },
 });
 
 const BuildControl = props => {
@@ -71,25 +91,31 @@ const BuildControl = props => {
     </div>
   );
 
-  const icon = <img width="80" src={props.icon} alt="" />;
+  const icon = <img width="120" src={props.icon} alt="" />;
 
   return (
     <div className={className.root}>
-      <div className={className.label}>
-        {/* <Typography component="span">{props.label}</Typography> */}
-
+      <Box className={`${className.labelContent}`}>
         {props.type === "tomato" ? tomatoIcon : icon}
-
-        <Typography component="span">{props.label}</Typography>
-      </div>
-      <div>
-        <ButtonControlLess className="less" color="primary">
+        <div className={className.label}>
+          <Typography component="span">{props.label} : </Typography>
+          <Typography component="small" className={className.labelPrice}>
+            Rp. {props.price}
+          </Typography>{" "}
+        </div>
+      </Box>
+      <Box className={`${className.actions} `}>
+        <ButtonControlLess
+          onClick={props.remove}
+          className={`less ${props.disabled ? "disabled" : ""}`}
+          color="primary"
+        >
           Less
         </ButtonControlLess>
         <ButtonControlAdd color="primary" onClick={props.added}>
           More
         </ButtonControlAdd>
-      </div>
+      </Box>
     </div>
   );
 };
@@ -97,9 +123,11 @@ const BuildControl = props => {
 BuildControl.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.string,
+  price: PropTypes.number,
   type: PropTypes.string.isRequired,
   added: PropTypes.func,
   remove: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default BuildControl;
