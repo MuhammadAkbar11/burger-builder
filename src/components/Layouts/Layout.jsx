@@ -43,7 +43,7 @@ const Layout = props => {
         <Fragment>{props.children}</Fragment>
         <Box className={classes.footer}>
           <Divider className={classes.divider} />
-          <Typography variant="p">Muhammad Akbar 2020</Typography>
+          <Typography variant="body1">Muhammad Akbar 2020</Typography>
         </Box>
       </Box>
     </Aux>

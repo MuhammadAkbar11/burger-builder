@@ -1,4 +1,4 @@
-import { Card, CardMedia, makeStyles } from "@material-ui/core";
+import { CardMedia } from "@material-ui/core";
 import React from "react";
 import breadTop from "../../../assets/svg/bread-top.svg";
 

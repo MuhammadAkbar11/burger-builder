@@ -1,18 +1,34 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  makeStyles,
-  Paper,
-} from "@material-ui/core";
+import { Container, makeStyles, Paper } from "@material-ui/core";
 import BuildControl from "./BuildControl.jsx/BuildControl";
 
 import meatImg from "../../../assets/svg/meat.svg";
 import saladImg from "../../../assets/svg/seeds.svg";
-import totatoImg from "../../../assets/svg/tomato-left.svg";
+import tomatoImg from "../../../assets/svg/tomato-left.svg";
 import cheeseImg from "../../../assets/svg/cheese.svg";
+
+const controls = [
+  {
+    label: "Salad",
+    type: "salad",
+    img: saladImg,
+  },
+  {
+    label: "Meat",
+    type: "meat",
+    img: meatImg,
+  },
+  {
+    label: "Tomato",
+    type: "tomato",
+    img: tomatoImg,
+  },
+  {
+    label: "Cheese",
+    type: "cheese",
+    img: cheeseImg,
+  },
+];
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -39,10 +55,20 @@ const BuildControls = props => {
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
-        <BuildControl icon={meatImg} label="Meat" />
+        {controls.map((item, index) => {
+          return (
+            <BuildControl
+              key={`${item.label}${index + 1}`}
+              icon={item.img}
+              label={item.label}
+              type={item.type}
+            />
+          );
+        })}
+        {/* <BuildControl icon={meatImg} label="Meat" />
         <BuildControl icon={saladImg} label="Salad" />
-        <BuildControl icon={totatoImg} label="Tomato" />
-        <BuildControl icon={cheeseImg} label="Cheese" />
+        <BuildControl icon={tomatoImg} label="Tomato" />
+        <BuildControl icon={cheeseImg} label="Cheese" /> */}
       </Paper>
     </Container>
   );

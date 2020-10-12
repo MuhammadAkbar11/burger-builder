@@ -75,6 +75,7 @@ const BuildControl = props => {
 BuildControl.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 export default BuildControl;

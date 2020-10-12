@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Burger from "../../components/Burger/Burger";
 
-import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
+import { Container, Grid, makeStyles } from "@material-ui/core";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 
 const useStyles = makeStyles(theme => ({
@@ -56,6 +56,14 @@ class BurgerBuilder extends Component {
       },
     };
   }
+
+  addIngredientHandler = type => {
+    console.log(type);
+  };
+
+  removeIngredientHandler = type => {
+    console.log("remove ", type);
+  };
 
   render() {
     const { ingredients } = this.state;
