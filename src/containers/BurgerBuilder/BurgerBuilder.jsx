@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Burger from "../../components/Burger/Burger";
 
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import OrderModal from "../../components/UI/OrderModal/OrderModal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,6 +65,7 @@ class BurgerBuilder extends Component {
       },
       totalPrice: 7000,
       purchasabled: false,
+      openModal: true,
     };
   }
 
@@ -128,24 +131,33 @@ class BurgerBuilder extends Component {
     }
 
     return (
-      <Container className={classes.root}>
-        <Grid container className={`${classes.container}`}>
-          <Grid item md={7} lg={8} className={classes.item}>
-            <Burger
-              ingredients={ingredients}
-              totalPrice={this.state.totalPrice}
-            />
+      <Fragment>
+        <Container className={classes.root}>
+          <Grid container className={`${classes.container}`}>
+            <Grid item md={7} lg={8} className={classes.item}>
+              <Burger
+                ingredients={ingredients}
+                totalPrice={this.state.totalPrice}
+              />
+            </Grid>
+            <Grid item md={5} lg={4} className={`${classes.item} right`}>
+              <BuildControls
+                disabled={disabledInfo}
+                ingredientRemove={this.removeIngredientHandler}
+                ingredientAdded={this.addIngredientHandler}
+                purchase={this.state.purchasabled}
+              />
+            </Grid>
           </Grid>
-          <Grid item md={5} lg={4} className={`${classes.item} right`}>
-            <BuildControls
-              disabled={disabledInfo}
-              ingredientRemove={this.removeIngredientHandler}
-              ingredientAdded={this.addIngredientHandler}
-              purchase={this.state.purchasabled}
-            />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+        <OrderModal
+          onClose={() => this.setState({ openModal: false })}
+          open={this.state.openModal}
+          title="Your Order"
+        >
+          <OrderSummary ingredients={ingredients} />
+        </OrderModal>
+      </Fragment>
     );
   }
 }

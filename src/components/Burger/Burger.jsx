@@ -102,8 +102,7 @@ const Burger = props => {
       return arr.concat(el);
     }, []);
 
-  if (transformedIngredients.length == 0) {
-    console.log("okk");
+  if (transformedIngredients.length === 0) {
     transformedIngredients = (
       <Typography className={burgerStyles.body1} component="h4" variant="body1">
         Please start adding ingredients!

@@ -50,6 +50,10 @@ const useStyle = makeStyles(theme => ({
     justifyContent: "center",
     height: "100%",
     width: "100%",
+    [theme.breakpoints.down("md")]: {
+      paddingBottom: "4rem",
+      paddingTop: theme.spacing(14),
+    },
   },
   paper: {
     display: "flex",
@@ -94,7 +98,6 @@ const CheckoutButton = styled(Button)({
 
 const BuildControls = props => {
   const classes = useStyle();
-  console.log(props.purchase);
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
