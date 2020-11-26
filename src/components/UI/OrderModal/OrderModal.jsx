@@ -23,7 +23,9 @@ const proptypes = {
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    transition: ".5s all ease-in-out",
+  },
   content: {
     backgroundColor: theme.palette.dark,
     borderRadius: "none",
@@ -55,7 +57,6 @@ const OrderModal = props => {
   return (
     <React.Fragment>
       <Dialog
-        BackdropProps={false}
         open={open}
         // onClose={handleClose}
         maxWidth={"md"}
@@ -66,7 +67,7 @@ const OrderModal = props => {
           <DialogTitle className={classes.title} id="max-width-dialog-title">
             {title}
           </DialogTitle>
-          <DialogContentText>{children}</DialogContentText>
+          <DialogContentText component="div">{children}</DialogContentText>
           <DialogActions>
             <Button className={classes.button} onClick={handleClose}>
               Close

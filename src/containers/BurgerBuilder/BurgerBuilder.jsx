@@ -65,7 +65,7 @@ class BurgerBuilder extends Component {
       },
       totalPrice: 7000,
       purchasabled: false,
-      openModal: true,
+      purchasing: false,
     };
   }
 
@@ -121,6 +121,10 @@ class BurgerBuilder extends Component {
     this.updatePurchaseState(updatedIngredients);
   };
 
+  purchaseHandler = () => {
+    this.setState({ purchasing: true });
+  };
+
   render() {
     const { ingredients } = this.state;
     const { classes } = this.props;
@@ -146,13 +150,14 @@ class BurgerBuilder extends Component {
                 ingredientRemove={this.removeIngredientHandler}
                 ingredientAdded={this.addIngredientHandler}
                 purchase={this.state.purchasabled}
+                ordered={this.purchaseHandler}
               />
             </Grid>
           </Grid>
         </Container>
         <OrderModal
-          onClose={() => this.setState({ openModal: false })}
-          open={this.state.openModal}
+          onClose={() => this.setState({ purchasing: false })}
+          open={this.state.purchasing}
           title="Your Order"
         >
           <OrderSummary ingredients={ingredients} />

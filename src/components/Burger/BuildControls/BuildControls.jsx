@@ -116,6 +116,7 @@ const BuildControls = props => {
           );
         })}
         <CheckoutButton
+          onClick={props.ordered}
           size="large"
           variant="contained"
           disabled={!props.purchase ? true : false}
@@ -132,6 +133,7 @@ BuildControls.propTypes = {
   ingredientRemove: PropTypes.func,
   disabled: PropTypes.object,
   purchase: PropTypes.bool,
+  ordered: PropTypes.func,
 };
 
 export default BuildControls;
