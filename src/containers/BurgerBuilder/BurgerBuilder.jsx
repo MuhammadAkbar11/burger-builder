@@ -125,6 +125,14 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: true });
   };
 
+  purchaseCancelledHandler = () => {
+    this.setState({ purchasing: false });
+  };
+
+  purchaseContinueHandler = () => {
+    alert("you continue");
+  };
+
   render() {
     const { ingredients } = this.state;
     const { classes } = this.props;
@@ -156,8 +164,9 @@ class BurgerBuilder extends Component {
           </Grid>
         </Container>
         <OrderModal
-          onClose={() => this.setState({ purchasing: false })}
+          handleCancelled={this.purchaseCancelledHandler}
           open={this.state.purchasing}
+          handleContinue={this.purchaseContinueHandler}
           title="Your Order"
         >
           <OrderSummary ingredients={ingredients} />

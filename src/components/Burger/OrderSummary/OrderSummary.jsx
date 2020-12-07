@@ -10,13 +10,13 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {},
-  listItem: {
-    paddingLeft: theme.spacing(0),
-    fontSize: "1.1rem",
-  },
-  listItemLabel: {
+
+  listItemValue: {
     textTransform: "capitalize",
     color: theme.palette.primary.main,
+  },
+  textDark: {
+    color: "#8C8C8C",
   },
 }));
 
@@ -26,20 +26,28 @@ const OrderSummary = props => {
   const ingredientSummary = Object.keys(ingredients).map((igKey, index) => {
     const key = index;
     return (
-      <ListItem dense key={key} className={classes.listItem}>
+      <ListItem dense key={key}>
         <ListItemText>
-          <span className={classes.listItemLabel}>{igKey}</span> :{" "}
-          {props.ingredients[igKey]}
+          <Typography variant="body2">
+            {" "}
+            {index + 1}. {igKey}:{" "}
+            <span className={classes.listItemValue}>
+              {props.ingredients[igKey]}
+            </span>
+          </Typography>
         </ListItemText>
       </ListItem>
     );
   });
   return (
     <Box>
-      <Typography variant="subtitle2">
+      <Typography variant="body1" className={classes.textDark}>
         A Delicious burger with the following ingredients
       </Typography>
       <List>{ingredientSummary}</List>
+      <Typography variant="body2" component="p" className={classes.textDark}>
+        Continue to Checkout ?{" "}
+      </Typography>
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Box, Button, makeStyles, styled, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
@@ -44,11 +44,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end",
     flex: 1,
   },
-
-  marginLeft: {
+  ml4: {
     marginLeft: "4px",
   },
-
+  buttonAdd: {
+    marginLeft: theme.spacing(2),
+  },
   img: {
     width: 38,
 
@@ -58,39 +59,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ButtonControlAdd = styled(Button)({
-  backgroundColor: "#f5b316",
-  color: "#212121",
-  marginLeft: "15px",
-  "&:hover": {
-    backgroundColor: "#f5b216c9",
-  },
-  "&:active, &:focus": {
-    backgroundColor: "#f5b216c9",
-  },
-});
-
-const ButtonControlLess = styled(Button)({
-  // backgroundColor: "#5d5d5a",
-  border: "1px solid #f5b316",
-  color: "#f5b316",
-
-  "&:hover": {
-    backgroundColor: "#f5b316",
-    color: "#f2f2f2",
-    // backgroundColor: "#70706fea",
-  },
-  "&.disabled": {
-    pointerEvents: "auto",
-    cursor: "not-allowed",
-    opacity: "0.5",
-  },
-  // "&:active, &:focus": {
-  //   color: "#f2f2f2",
-  //   backgroundColor: "#f5b216c9",
-  // },
-});
-
 const BuildControl = props => {
   const className = useStyles();
 
@@ -98,7 +66,7 @@ const BuildControl = props => {
     <div>
       <img className={className.img} src={props.icon} alt="" />
       <img
-        className={`${className.img} ` + className.marginLeft}
+        className={`${className.img} ` + className.ml4}
         src={props.icon}
         alt=""
       />
@@ -119,17 +87,24 @@ const BuildControl = props => {
         </div>
       </Box>
       <Box className={`${className.actions} `}>
-        <ButtonControlLess
+        <Button
           size="small"
           onClick={props.remove}
           className={`less ${props.disabled ? "disabled" : ""}`}
           color="primary"
+          variant="outlined"
         >
           <RemoveIcon />
-        </ButtonControlLess>
-        <ButtonControlAdd size="small" color="primary" onClick={props.added}>
+        </Button>
+        <Button
+          size="small"
+          variant="contained"
+          color="primary"
+          className={className.buttonAdd}
+          onClick={props.added}
+        >
           <AddIcon />{" "}
-        </ButtonControlAdd>
+        </Button>
       </Box>
     </div>
   );
