@@ -18,11 +18,15 @@ const useStyles = makeStyles(theme => ({
   textDark: {
     color: "#8C8C8C",
   },
+  price: {
+    marginBottom: theme.spacing(1),
+    color: theme.palette.primary.main,
+  },
 }));
 
 const OrderSummary = props => {
   const classes = useStyles();
-  const { ingredients } = props;
+  const { ingredients, price } = props;
   const ingredientSummary = Object.keys(ingredients).map((igKey, index) => {
     const key = index;
     return (
@@ -45,6 +49,10 @@ const OrderSummary = props => {
         A Delicious burger with the following ingredients
       </Typography>
       <List>{ingredientSummary}</List>
+      <Typography variant="body1" component="p" className={classes.price}>
+        <strong>Total Price : {price}</strong>
+      </Typography>
+
       <Typography variant="body2" component="p" className={classes.textDark}>
         Continue to Checkout ?{" "}
       </Typography>

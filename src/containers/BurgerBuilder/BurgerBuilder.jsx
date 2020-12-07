@@ -169,7 +169,10 @@ class BurgerBuilder extends Component {
           handleContinue={this.purchaseContinueHandler}
           title="Your Order"
         >
-          <OrderSummary ingredients={ingredients} />
+          <OrderSummary
+            ingredients={ingredients}
+            price={this.state.totalPrice}
+          />
         </OrderModal>
       </Fragment>
     );
