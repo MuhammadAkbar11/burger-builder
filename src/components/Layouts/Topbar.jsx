@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme =>
       "& > *": {
         color: "#dae1e7",
       },
+      [theme.breakpoints.down("sm")]: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+      },
     },
     title: {
       flexGrow: 1,
@@ -39,6 +43,11 @@ const useStyles = makeStyles(theme =>
       "&.active": {
         color: "#f5b316",
         fontWeight: "600",
+      },
+
+      [theme.breakpoints.down("sm")]: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
       },
     },
   })

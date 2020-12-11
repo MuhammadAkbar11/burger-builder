@@ -42,7 +42,6 @@ const useStyle = makeStyles(theme => ({
 
   card: {
     backgroundColor: "transparent",
-
     margin: "auto",
     position: "relative",
     minHeight: "100%",
@@ -109,8 +108,6 @@ const Burger = props => {
       </Typography>
     );
   }
-
-  console.log(transformedIngredients.length);
 
   return (
     <Container className={burgerStyles.root}>

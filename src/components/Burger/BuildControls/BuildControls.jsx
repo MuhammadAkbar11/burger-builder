@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {
+  Box,
   Button,
   Container,
   makeStyles,
@@ -54,6 +55,10 @@ const useStyle = makeStyles(theme => ({
       paddingBottom: "4rem",
       paddingTop: theme.spacing(14),
     },
+    [theme.breakpoints.down("md")]: {
+      paddingBottom: "4rem",
+      paddingTop: theme.spacing(4),
+    },
   },
   paper: {
     display: "flex",
@@ -63,11 +68,24 @@ const useStyle = makeStyles(theme => ({
     width: "100%",
     backgroundColor: "transparent",
     boxShadow: "none",
+
     [theme.breakpoints.only("sm")]: {
       width: "80%",
     },
     [theme.breakpoints.down("sm")]: {
       paddingBottom: "4rem",
+    },
+  },
+  controls: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+
+    width: "100%",
+    [theme.breakpoints.only("sm")]: {
+      flexDirection: "row",
+      flexWrap: "wrap",
     },
   },
 }));
@@ -101,20 +119,24 @@ const BuildControls = props => {
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
-        {controls.map((item, index) => {
-          return (
-            <BuildControl
-              added={() => props.ingredientAdded(item.type)}
-              remove={() => props.ingredientRemove(item.type)}
-              key={`${item.label}${index + 1}`}
-              icon={item.img}
-              label={item.label}
-              type={item.type}
-              price={item.price}
-              disabled={props.disabled[item.type]}
-            />
-          );
-        })}
+        <Box className={classes.controls}>
+          {controls.map((item, index) => {
+            return (
+              <div>
+                <BuildControl
+                  added={() => props.ingredientAdded(item.type)}
+                  remove={() => props.ingredientRemove(item.type)}
+                  key={`${item.label}${index + 1}`}
+                  icon={item.img}
+                  label={item.label}
+                  type={item.type}
+                  price={item.price}
+                  disabled={props.disabled[item.type]}
+                />
+              </div>
+            );
+          })}
+        </Box>
         <CheckoutButton
           onClick={props.ordered}
           size="large"

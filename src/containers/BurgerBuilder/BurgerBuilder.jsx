@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Burger from "../../components/Burger/Burger";
 
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, makeStyles } from "@material-ui/core";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import OrderModal from "../../components/UI/OrderModal/OrderModal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
@@ -41,6 +41,16 @@ const useStyles = makeStyles(theme => ({
       [theme.breakpoints.up("md")]: {
         borderLeft: "1px solid #333",
       },
+    },
+  },
+  burgerBox: {
+    height: "100%",
+    display: "flex",
+    alignItems: "start",
+    justifyContent: "center",
+    [theme.breakpoints.only("sm")]: {
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
 }));
@@ -147,10 +157,12 @@ class BurgerBuilder extends Component {
         <Container className={classes.root}>
           <Grid container className={`${classes.container}`}>
             <Grid item md={7} lg={8} className={classes.item}>
-              <Burger
-                ingredients={ingredients}
-                totalPrice={this.state.totalPrice}
-              />
+              <Box className={classes.burgerBox}>
+                <Burger
+                  ingredients={ingredients}
+                  totalPrice={this.state.totalPrice}
+                />
+              </Box>
             </Grid>
             <Grid item md={5} lg={4} className={`${classes.item} right`}>
               <BuildControls
