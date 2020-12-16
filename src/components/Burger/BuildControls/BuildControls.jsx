@@ -122,11 +122,10 @@ const BuildControls = props => {
         <Box className={classes.controls}>
           {controls.map((item, index) => {
             return (
-              <div>
+              <div key={`${item.label}${index + 1}`}>
                 <BuildControl
                   added={() => props.ingredientAdded(item.type)}
                   remove={() => props.ingredientRemove(item.type)}
-                  key={`${item.label}${index + 1}`}
                   icon={item.img}
                   label={item.label}
                   type={item.type}

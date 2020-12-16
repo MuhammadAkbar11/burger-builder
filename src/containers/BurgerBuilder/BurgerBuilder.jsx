@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from "react";
-import Burger from "../../components/Burger/Burger";
+import firebase from "firebase/app";
+import "firebase/database";
+import firebaseConfig from "../../configs/firebase";
 
+import Burger from "../../components/Burger/Burger";
 import { Box, Container, Grid, makeStyles } from "@material-ui/core";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import OrderModal from "../../components/UI/OrderModal/OrderModal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import AlertModal from "../../components/UI/AlertModal/AlertModal";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,7 +81,31 @@ class BurgerBuilder extends Component {
       totalPrice: 7000,
       purchasabled: false,
       purchasing: false,
+      database: null,
+      loading: false,
+      alert: {
+        isShow: false,
+        title: "Success !",
+        subTitle: "Order Success",
+      },
     };
+  }
+
+  componentDidMount = async () => {
+    await firebase.initializeApp(firebaseConfig);
+    await firebase
+      .database()
+      .ref("orders")
+      .on("value", snapshot => {
+        this.setState(prevState => ({
+          ...prevState,
+          database: snapshot.val(),
+        }));
+      });
+  };
+
+  shouldComponentUpdate() {
+    return true;
   }
 
   updatePurchaseState = ingredients => {
@@ -140,7 +169,39 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    alert("you continue");
+    this.setState({ purchasing: false, loading: true });
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      costumer: {
+        name: "Akbar",
+        address: {
+          street: "jln Antara",
+          zipCode: "12345",
+          city: "Bekasi",
+        },
+        email: "akbar@gmail.com",
+      },
+      deliveryMethod: "fastest",
+    };
+    const orderListRef = firebase.database().ref("orders");
+    orderListRef.push().set(order, err => {
+      if (err) {
+        console.log(err);
+      } else {
+        setTimeout(() => {
+          this.setState({
+            purchasing: false,
+            loading: false,
+            alert: {
+              isShow: true,
+              title: "succes",
+              subTitle: "Order has Succesfull",
+            },
+          });
+        }, 1500);
+      }
+    });
   };
 
   render() {
@@ -150,6 +211,21 @@ class BurgerBuilder extends Component {
     const disabledInfo = { ...ingredients };
     for (const key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
+    }
+
+    let orderSummary = (
+      <OrderModal
+        handleCancelled={this.purchaseCancelledHandler}
+        open={this.state.purchasing}
+        handleContinue={this.purchaseContinueHandler}
+        title="Your Order"
+      >
+        <OrderSummary ingredients={ingredients} price={this.state.totalPrice} />
+      </OrderModal>
+    );
+
+    if (this.state.loading) {
+      orderSummary = <Spinner open={true} />;
     }
 
     return (
@@ -175,17 +251,21 @@ class BurgerBuilder extends Component {
             </Grid>
           </Grid>
         </Container>
-        <OrderModal
-          handleCancelled={this.purchaseCancelledHandler}
-          open={this.state.purchasing}
-          handleContinue={this.purchaseContinueHandler}
-          title="Your Order"
-        >
-          <OrderSummary
-            ingredients={ingredients}
-            price={this.state.totalPrice}
+        {orderSummary}
+        {this.state.alert.isShow && (
+          <AlertModal
+            show={this.state.alert.isShow}
+            title={this.state.alert.title}
+            subtitle={this.state.alert.subTitle}
+            onClose={() =>
+              this.setState({
+                alert: {
+                  isShow: false,
+                },
+              })
+            }
           />
-        </OrderModal>
+        )}
       </Fragment>
     );
   }
