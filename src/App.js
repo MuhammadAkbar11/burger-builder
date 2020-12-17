@@ -30,6 +30,9 @@ const theme = createMuiTheme({
     success: {
       main: "#3ae57f",
     },
+    danger: {
+      main: "#fd3a69",
+    },
   },
 });
 function App() {

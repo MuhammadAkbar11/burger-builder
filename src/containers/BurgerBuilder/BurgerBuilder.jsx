@@ -195,8 +195,8 @@ class BurgerBuilder extends Component {
             loading: false,
             alert: {
               isShow: true,
-              title: "succes",
-              subTitle: "Order has Succesfull",
+              title: "Success",
+              subTitle: "Your order was successful",
             },
           });
         }, 1500);

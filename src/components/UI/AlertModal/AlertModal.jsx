@@ -9,7 +9,8 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { CheckCircleOutline } from "@material-ui/icons";
+
+import AlertIcon from "./AlertIcon";
 
 const defaultProps = {
   type: "success",
@@ -36,15 +37,7 @@ const useStyles = makeStyles(theme => {
       display: "flex",
       justifyContent: "center",
     },
-    icon: {
-      marginTop: 20,
-      marginBottom: 16,
-      fontSize: "7rem",
-      textAlign: "center",
-      "&.success": {
-        color: theme.palette.success.main,
-      },
-    },
+
     title: {
       fontWeight: "bold",
     },
@@ -54,20 +47,6 @@ const useStyles = makeStyles(theme => {
 const AlertModal = props => {
   const { show, type, title, subtitle, onClose } = props;
   const classes = useStyles();
-  let icon;
-
-  switch (type) {
-    case "success":
-      icon = (
-        <CheckCircleOutline
-          fontSize="large"
-          className={`${classes.icon} success `}
-        />
-      );
-      break;
-    default:
-      break;
-  }
 
   return (
     <Dialog open={show} fullWidth maxWidth={"sm"}>
@@ -77,7 +56,7 @@ const AlertModal = props => {
             textAlign: "center",
           }}
         >
-          {icon}
+          <AlertIcon type={type} />
         </div>
         <DialogContentText component="div">
           <Typography variant="h5" className={classes.title}>
