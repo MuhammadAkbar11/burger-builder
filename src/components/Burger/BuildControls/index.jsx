@@ -1,20 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import useStyles from "./styles";
 
-import {
-  Box,
-  Button,
-  Container,
-  makeStyles,
-  Paper,
-  styled,
-} from "@material-ui/core";
-import BuildControl from "./BuildControl.jsx/BuildControl";
+import { Box, Button, Container, Paper, styled } from "@material-ui/core";
 
 import meatImg from "../../../assets/svg/meat.svg";
 import saladImg from "../../../assets/svg/seeds.svg";
 import tomatoImg from "../../../assets/svg/tomato-left.svg";
 import cheeseImg from "../../../assets/svg/cheese.svg";
+import BuildControl from "./BuildControl.jsx";
 
 const controls = [
   {
@@ -43,53 +37,6 @@ const controls = [
   },
 ];
 
-const useStyle = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexFlow: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%",
-    [theme.breakpoints.down("md")]: {
-      paddingBottom: "4rem",
-      paddingTop: theme.spacing(14),
-    },
-    [theme.breakpoints.down("md")]: {
-      paddingBottom: "4rem",
-      paddingTop: theme.spacing(4),
-    },
-  },
-  paper: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    backgroundColor: "transparent",
-    boxShadow: "none",
-
-    [theme.breakpoints.only("sm")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      paddingBottom: "4rem",
-    },
-  },
-  controls: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-
-    width: "100%",
-    [theme.breakpoints.only("sm")]: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
-  },
-}));
-
 const CheckoutButton = styled(Button)({
   backgroundColor: "#f5b316",
   color: "#212121",
@@ -115,7 +62,16 @@ const CheckoutButton = styled(Button)({
 });
 
 const BuildControls = props => {
-  const classes = useStyle();
+  const classes = useStyles();
+  const { ingredients } = props;
+
+  let disabledInfo = controls
+    .map(ctl => ctl.type)
+    .reduce((ac, a) => {
+      const exits = ingredients.filter(item => item.ingredient === a);
+      return { ...ac, [a]: exits.length <= 0 };
+    }, {});
+
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
@@ -130,7 +86,7 @@ const BuildControls = props => {
                   label={item.label}
                   type={item.type}
                   price={item.price}
-                  disabled={props.disabled[item.type]}
+                  disabled={disabledInfo[item.type]}
                 />
               </div>
             );
@@ -150,9 +106,9 @@ const BuildControls = props => {
 };
 
 BuildControls.propTypes = {
+  ingredients: PropTypes.array,
   ingredientAdded: PropTypes.func,
   ingredientRemove: PropTypes.func,
-  disabled: PropTypes.object,
   purchase: PropTypes.bool,
   ordered: PropTypes.func,
 };

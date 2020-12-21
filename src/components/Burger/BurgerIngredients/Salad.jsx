@@ -5,7 +5,7 @@ import { CardMedia, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   img: {
     marginTop: "-0.7rem",
-    marginBottom: "-0.8rem",
+    marginBottom: "-0.2rem",
     position: "relative",
     zIndex: 20,
   },

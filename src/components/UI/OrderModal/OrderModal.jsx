@@ -35,8 +35,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   title: {
-    fontSize: "1.3rem",
     paddingLeft: theme.spacing(0),
+    "& > *": {
+      fontSize: "1.3rem",
+      fontWeight: 700,
+    },
   },
 }));
 

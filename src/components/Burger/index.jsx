@@ -27,17 +27,6 @@ const useStyle = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       height: "320px",
     },
-
-    // /* Track */
-    // "&::-webkit-scrollbar-track": {
-    //   boxShadow: "inset 0 0 5px grey",
-    //   borderRadius: "10px ",
-    // },
-
-    // "&::-webkit-scrollbar-thumb  ": {
-    //   background: "red",
-    //   borderRadius: "10px",
-    // },
   },
 
   card: {
@@ -89,17 +78,13 @@ const useStyle = makeStyles(theme => ({
 const Burger = props => {
   const burgerStyles = useStyle();
 
-  // const { ingredients } = props;
+  const { ingredients } = props;
 
-  let transformedIngredients = Object.keys(props.ingredients)
-    .map(igKey => {
-      return [...Array(props.ingredients[igKey])].map((_, i) => {
-        return <BurgerIngredients key={igKey + i} type={igKey} />;
-      });
-    })
-    .reduce((arr, el) => {
-      return arr.concat(el);
-    }, []);
+  let transformedIngredients;
+
+  transformedIngredients = ingredients.map(item => {
+    return <BurgerIngredients key={item.id} type={item.ingredient} />;
+  });
 
   if (transformedIngredients.length === 0) {
     transformedIngredients = (

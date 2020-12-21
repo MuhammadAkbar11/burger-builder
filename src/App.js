@@ -6,7 +6,8 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import Layout from "./components/Layouts/Layout";
-import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+// import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
+import BurgerBuilder2 from "./containers/BurgerBuilderV2";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +43,7 @@ function App() {
       <div className={classes.root}>
         <CssBaseline />
         <Layout>
-          <BurgerBuilder />
+          <BurgerBuilder2 />
         </Layout>
       </div>
     </ThemeProvider>
