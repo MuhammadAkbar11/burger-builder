@@ -1,21 +1,7 @@
-import { makeStyles } from "@material-ui/core";
-import { CheckCircleOutline, HighlightOffOutlined } from "@material-ui/icons";
 import React from "react";
+import { CheckCircleOutline, HighlightOffOutlined } from "@material-ui/icons";
+import useStyles from "./styles";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: 20,
-    marginBottom: 16,
-    fontSize: "7rem",
-    textAlign: "center",
-    "&.success": {
-      color: theme.palette.success.main,
-    },
-    "&.error": {
-      color: theme.palette.danger.main,
-    },
-  },
-}));
 const AlertIcon = props => {
   const { type } = props;
   const classes = useStyles();

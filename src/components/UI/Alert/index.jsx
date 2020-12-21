@@ -6,9 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  makeStyles,
   Typography,
 } from "@material-ui/core";
+import useStyles from "./styles";
 
 import AlertIcon from "./AlertIcon";
 
@@ -18,33 +18,11 @@ const defaultProps = {
 };
 
 const proptypes = {
-  type: PropTypes.string,
+  type: PropTypes.oneOf(["success", "error"]),
   show: PropTypes.bool,
 };
 
-const useStyles = makeStyles(theme => {
-  return {
-    root: {},
-    content: {
-      backgroundColor: theme.palette.dark,
-      borderRadius: "none",
-      "& > *": {
-        textAlign: "center",
-        color: theme.palette.light,
-      },
-    },
-    actions: {
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    title: {
-      fontWeight: "bold",
-    },
-  };
-});
-
-const AlertModal = props => {
+const Alert = props => {
   const { show, type, title, subtitle, onClose } = props;
   const classes = useStyles();
 
@@ -79,8 +57,8 @@ const AlertModal = props => {
   );
 };
 
-AlertModal.defaultProps = defaultProps;
+Alert.defaultProps = defaultProps;
 
-AlertModal.propTypes = proptypes;
+Alert.propTypes = proptypes;
 
-export default AlertModal;
+export default Alert;
