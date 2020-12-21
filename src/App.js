@@ -6,8 +6,7 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import Layout from "./components/Layouts/Layout";
-// import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
-import BurgerBuilder2 from "./containers/BurgerBuilderV2";
+import BurgerBuilder2 from "./containers/BurgerBuilder";
 
 const useStyles = makeStyles(theme => ({
   root: {
