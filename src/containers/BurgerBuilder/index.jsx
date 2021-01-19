@@ -32,6 +32,7 @@ const BurgerBuilder2 = () => {
   const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState({
     show: false,
+    type: "success",
     title: "Success",
     subTitle: "Your order was successful",
   });
@@ -83,7 +84,6 @@ const BurgerBuilder2 = () => {
   const purchaseContinueHandler = async () => {
     setPurchasing(false);
     setLoading(true);
-
     const order = {
       ingredients: ingredients,
       price: totalPrice,
@@ -100,26 +100,39 @@ const BurgerBuilder2 = () => {
       deliveryMethod: "fastest",
     };
 
-    const orderListRef = await firebase.database().ref("orders");
-    orderListRef.push().set(order, err => {
-      if (err) {
-        console.log(err);
-      } else {
-        setTimeout(() => {
-          setPurchasing(false);
-          setLoading(false);
-          setAlert(prevState => {
+    try {
+      const orderListRef = await firebase.database().ref("orders");
+      orderListRef.push().set(order, err => {
+        if (err) {
+          return setAlert(prevState => {
             return {
               show: true,
+              type: "error",
               title: prevState.title,
               subTitle: prevState.subTitle,
             };
           });
-          setIngredients([]);
-          setTotalPrice(7000);
-        }, 1500);
-      }
-    });
+        } else {
+          setTimeout(() => {
+            setPurchasing(false);
+            setLoading(false);
+            setAlert(prevState => {
+              return {
+                show: true,
+                type: "success",
+                title: prevState.title,
+                subTitle: prevState.subTitle,
+              };
+            });
+            setIngredients([]);
+            setTotalPrice(7000);
+          }, 1500);
+        }
+      });
+    } catch {
+      setLoading(false);
+      return console.log("try");
+    }
   };
 
   let orderSummary = (
@@ -141,7 +154,7 @@ const BurgerBuilder2 = () => {
   if (alert.show) {
     containAlert = (
       <Alert
-        type="success"
+        type={alert.type}
         show={true}
         title={alert.title}
         subtitle={alert.subTitle}
