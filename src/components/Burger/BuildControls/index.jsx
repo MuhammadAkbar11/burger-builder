@@ -69,7 +69,15 @@ const BuildControls = props => {
     .map(ctl => ctl.type)
     .reduce((ac, a) => {
       const exits = ingredients.filter(item => item.ingredient === a);
-      return { ...ac, [a]: exits.length <= 0 };
+
+      let data = {
+        ...ac,
+        [a]: {
+          disabled: exits.length <= 0,
+          total: exits.length,
+        },
+      };
+      return data;
     }, {});
 
   return (
@@ -77,6 +85,7 @@ const BuildControls = props => {
       <Paper className={classes.paper}>
         <Box className={classes.controls}>
           {controls.map((item, index) => {
+            console.log(disabledInfo[item.type]);
             return (
               <div key={`${item.label}${index + 1}`}>
                 <BuildControl
@@ -86,7 +95,8 @@ const BuildControls = props => {
                   label={item.label}
                   type={item.type}
                   price={item.price}
-                  disabled={disabledInfo[item.type]}
+                  disabled={disabledInfo[item.type].disabled}
+                  total={disabledInfo[item.type].total}
                 />
               </div>
             );

@@ -40,15 +40,15 @@ const BuildControl = props => {
           disabled={props.disabled}
           className={className.button}
           color="primary"
-          variant="outlined"
+          variant="contained"
         >
           <RemoveIcon />
         </Button>
+        <span className={className.badgeTotal}>{props.total}</span>
         <Button
           size="small"
           variant="contained"
           color="primary"
-          className={className.buttonAdd}
           onClick={props.added}
         >
           <AddIcon />{" "}
@@ -66,6 +66,7 @@ BuildControl.propTypes = {
   added: PropTypes.func,
   remove: PropTypes.func,
   disabled: PropTypes.bool,
+  total: PropTypes.number,
 };
 
 export default BuildControl;

@@ -37,13 +37,11 @@ const useStyles = makeStyles(theme => ({
   actions: {
     display: "flex",
     justifyContent: "flex-end",
+    alignItems: "center",
     flex: 1,
   },
   ml4: {
     marginLeft: "4px",
-  },
-  buttonAdd: {
-    marginLeft: theme.spacing(2),
   },
   img: {
     width: 38,
@@ -52,12 +50,28 @@ const useStyles = makeStyles(theme => ({
       width: 55,
     },
   },
+  badgeTotal: {
+    backgroundColor: theme.palette.primary.main,
+    color: "#000",
+    borderRadius: "50%",
+    height: 20,
+    width: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    padding: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
   button: {
     "&:disabled": {
+      color: "f2f2f2",
+      backgroundColor: "#f5b216c9",
       opacity: 0.6,
       cursor: "not-allowed",
-      color: "#f5b216c9",
-      border: "1px solid #f5b216c9",
     },
   },
 }));
