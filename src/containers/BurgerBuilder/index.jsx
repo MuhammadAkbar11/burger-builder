@@ -73,12 +73,13 @@ const BurgerBuilder2 = () => {
     const notSelected = ingredients.filter(item => item.ingredient !== type); // element yg tidak terhapus dgn type yg berbeda
 
     const newIngredients = [...selectedIgredient, ...notSelected];
-
     newIngredients
       .sort((a, b) => (a.id < b.id ? -1 : Number(a.id > b.id)))
       .reverse();
     setIngredients(newIngredients);
     updatePurchaseState(newIngredients);
+    const priceDeduction = +INGREDIENT_PRICES[type];
+    setTotalPrice(prevPrice => +prevPrice - priceDeduction);
   };
 
   const purchaseContinueHandler = async () => {
