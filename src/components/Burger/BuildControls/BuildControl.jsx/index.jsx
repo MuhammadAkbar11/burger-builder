@@ -44,7 +44,7 @@ const BuildControl = props => {
         >
           <RemoveIcon />
         </Button>
-        <span className={className.badgeTotal}>{props.total}</span>
+        <span className={className.badgeTotal}>X{props.total}</span>
         <Button
           size="small"
           variant="contained"
