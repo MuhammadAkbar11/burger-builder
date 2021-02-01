@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { Box, Link as LinkItem } from "@material-ui/core";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -55,6 +56,11 @@ const useStyles = makeStyles(theme =>
 
 const TopBar = props => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const pathName = history.location.pathname;
+
+  const setActive = (url, match) => (url === match ? "active" : "");
 
   return (
     <div className={classes.root}>
@@ -66,12 +72,18 @@ const TopBar = props => {
           <Box display="flex">
             <LinkItem
               underline="none"
-              className={`${classes.link} active `}
-              href=""
+              className={`${classes.link} ${setActive(pathName, "/builder")}  `}
+              component={Link}
+              to="/builder"
             >
               Builder
             </LinkItem>
-            <LinkItem underline="none" className={classes.link} href="">
+
+            <LinkItem
+              underline="none"
+              className={classes.link}
+              component="span"
+            >
               Login
             </LinkItem>
           </Box>

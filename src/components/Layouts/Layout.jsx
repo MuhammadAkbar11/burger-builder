@@ -6,12 +6,11 @@ import { Box, Divider, makeStyles, Typography } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: "#212121",
-    paddingLeft: "0px",
-    paddingRight: "0px",
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
     margin: 0,
     display: "flex",
     flexDirection: "column",
-    border: "1px solid",
     height: "100vh",
     overflow: "hidden",
   },
