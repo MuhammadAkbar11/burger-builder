@@ -8,6 +8,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import formatRupiah from "../../utils/formatRupiah";
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -93,7 +94,7 @@ const Burger = props => {
       </Typography>
     );
   }
-
+  const totalPrice = formatRupiah(props.totalPrice);
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
@@ -104,8 +105,7 @@ const Burger = props => {
         </CardContent>
         <Box mt={4}>
           <Typography className={burgerStyles.textprice}>
-            Current Price{" "}
-            <span className={`price`}> : Rp. {props.totalPrice}</span>
+            Total<span className={`price`}> : {totalPrice}</span>
           </Typography>
         </Box>
       </Card>

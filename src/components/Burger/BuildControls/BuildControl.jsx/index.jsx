@@ -5,6 +5,7 @@ import { Box, Button, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import useStyles from "./styles";
+import formatRupiah from "../../../../utils/formatRupiah";
 
 const BuildControl = props => {
   const className = useStyles();
@@ -21,15 +22,15 @@ const BuildControl = props => {
   );
 
   const icon = <img width="120" src={props.icon} alt="" />;
-
+  const price = formatRupiah(props.price);
   return (
     <div className={className.root}>
       <Box className={`${className.labelContent}`}>
         {props.type === "tomato" ? tomatoIcon : icon}
         <div className={className.label}>
-          <Typography component="span">{props.label} : </Typography>
+          <Typography component="small">{props.label} : </Typography>
           <Typography component="small" className={className.labelPrice}>
-            Rp. {props.price}
+            {price}
           </Typography>{" "}
         </div>
       </Box>

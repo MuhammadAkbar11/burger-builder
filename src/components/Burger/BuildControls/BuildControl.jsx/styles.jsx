@@ -23,11 +23,16 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(2),
   },
   label: {
+    display: "flex",
+    alignItems: "center",
     textAlign: "left",
     marginTop: "9px",
     marginLeft: ".1rem",
     color: "#f5f5f5",
-    fontSize: "0.9rem",
+    fontSize: "0.8rem",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.9rem",
+    },
   },
   labelPrice: {
     marginLeft: "5px",

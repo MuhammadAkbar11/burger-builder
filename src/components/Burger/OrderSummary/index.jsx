@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import ResultIngredients from "./ResultIngredients";
 import useStyles from "./styles";
+import formatRupiah from "../../../utils/formatRupiah";
 
 const OrderSummary = props => {
   const classes = useStyles();
@@ -49,7 +50,7 @@ const OrderSummary = props => {
         <Grid item xs={12}>
           <Typography variant="h6" align="center" className={classes.price}>
             {" "}
-            Total <span>Rp. {totalPrice}</span>
+            Total <span>{formatRupiah(totalPrice)}</span>
           </Typography>
         </Grid>
       </Grid>
