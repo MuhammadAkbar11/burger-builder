@@ -1,9 +1,5 @@
 import React, { Fragment } from "react";
 
-import firebase from "firebase/app";
-import "firebase/database";
-import firebaseConfig from "../../configs/firebase";
-
 import useStyles from "./styles";
 import { Container, Grid, Box } from "@material-ui/core";
 import BuildControls from "../../components/Burger/BuildControls";
@@ -12,6 +8,7 @@ import OrderModal from "../../components/UI/OrderModal/OrderModal";
 import OrderSummary from "../../components/Burger/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Alert from "../../components/UI/Alert";
+import { useHistory } from "react-router-dom";
 
 const INGREDIENT_PRICES = {
   salad: 6000,
@@ -22,6 +19,7 @@ const INGREDIENT_PRICES = {
 
 const BurgerBuilder2 = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [ingredientId, setIngredientId] = React.useState(1);
   const [ingredients, setIngredients] = React.useState([]);
@@ -36,11 +34,6 @@ const BurgerBuilder2 = () => {
     title: "Success",
     subTitle: "Your order was successful",
   });
-
-  React.useEffect(() => {
-    firebase.initializeApp(firebaseConfig);
-    return;
-  }, []);
 
   const updatePurchaseState = data => {
     setPurchasabled(data.length > 0);
@@ -82,58 +75,58 @@ const BurgerBuilder2 = () => {
     setTotalPrice(prevPrice => +prevPrice - priceDeduction);
   };
 
-  const purchaseContinueHandler = async () => {
-    setPurchasing(false);
-    setLoading(true);
-    const order = {
-      ingredients: ingredients,
-      price: totalPrice,
-      costumer: {
-        userId: 1,
-        name: "Akbar",
-        email: "akbar@gmail.com",
-        address: {
-          street: "jln Antara",
-          zipCode: "12345",
-          city: "Bekasi",
-        },
-      },
-      deliveryMethod: "fastest",
-    };
-
-    try {
-      const orderListRef = await firebase.database().ref("orders");
-      orderListRef.push().set(order, err => {
-        if (err) {
-          return setAlert(prevState => {
-            return {
-              show: true,
-              type: "error",
-              title: prevState.title,
-              subTitle: prevState.subTitle,
-            };
-          });
-        } else {
-          setTimeout(() => {
-            setPurchasing(false);
-            setLoading(false);
-            setAlert(prevState => {
-              return {
-                show: true,
-                type: "success",
-                title: prevState.title,
-                subTitle: prevState.subTitle,
-              };
-            });
-            setIngredients([]);
-            setTotalPrice(7000);
-          }, 1500);
-        }
-      });
-    } catch {
-      setLoading(false);
-      return console.log("try");
-    }
+  const purchaseContinueHandler = () => {
+    history.push("checkout");
+    // setPurchasing(false);
+    // setLoading(true);
+    // const order = {
+    //   ingredients: ingredients,
+    //   price: totalPrice,
+    //   costumer: {
+    //     userId: 1,
+    //     name: "Akbar",
+    //     email: "akbar@gmail.com",
+    //     address: {
+    //       street: "jln Antara",
+    //       zipCode: "12345",
+    //       city: "Bekasi",
+    //     },
+    //   },
+    //   deliveryMethod: "fastest",
+    // };
+    // try {
+    //   const orderListRef = await firebase.database().ref("orders");
+    //   orderListRef.push().set(order, err => {
+    //     if (err) {
+    //       return setAlert(prevState => {
+    //         return {
+    //           show: true,
+    //           type: "error",
+    //           title: prevState.title,
+    //           subTitle: prevState.subTitle,
+    //         };
+    //       });
+    //     } else {
+    //       setTimeout(() => {
+    //         setPurchasing(false);
+    //         setLoading(false);
+    //         setAlert(prevState => {
+    //           return {
+    //             show: true,
+    //             type: "success",
+    //             title: prevState.title,
+    //             subTitle: prevState.subTitle,
+    //           };
+    //         });
+    //         setIngredients([]);
+    //         setTotalPrice(7000);
+    //       }, 1500);
+    //     }
+    //   });
+    // } catch {
+    //   setLoading(false);
+    //   return console.log("try");
+    // }
   };
 
   let orderSummary = (
