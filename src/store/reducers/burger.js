@@ -50,9 +50,9 @@ const { addIngredient, removeIngredient } = BurgerActionsHandler;
 const BurgerReducer = (state = initialState, action) => {
   switch (action.type) {
     case BurgerActionTypes.ADD_INGREDIENT:
-      return addIngredient(state, { ...action.payload });
+      return addIngredient(state, action.payload);
     case BurgerActionTypes.REMOVE_INGREDIENT:
-      return removeIngredient(state);
+      return removeIngredient(state, action.payload);
     default:
       return state;
   }

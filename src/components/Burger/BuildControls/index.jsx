@@ -59,6 +59,8 @@ const BuildControls = props => {
       return data;
     }, {});
 
+  const updatePurchaseStatus = data => data.length > 0;
+
   const addIngredientHandler = type => {
     const oldIngredients = [...ingredients];
     const updatedIngredients = [
@@ -68,7 +70,7 @@ const BuildControls = props => {
       },
       ...oldIngredients,
     ];
-    const isPurchase = updatedIngredients.length > 0;
+    const isPurchase = updatePurchaseStatus(updatedIngredients);
 
     const priceAddition = +props.ingredient_prices[type];
     const totalPrice = +props.totalPrice + priceAddition;
@@ -83,7 +85,29 @@ const BuildControls = props => {
   };
 
   const removeIngredientHandler = type => {
-    onRemoveIngredient(type);
+    const selectedIgredient = ingredients.filter(item => {
+      return item.ingredient === type;
+    });
+    selectedIgredient.shift(); // menghapus element pertama setelah di filter
+    const notSelected = ingredients.filter(item => item.ingredient !== type); // element yg tidak terhapus dgn type yg berbeda
+
+    const newIngredients = [...selectedIgredient, ...notSelected];
+    newIngredients
+      .sort((a, b) => (a.id < b.id ? -1 : Number(a.id > b.id)))
+      .reverse();
+
+    const isPurchase = updatePurchaseStatus(newIngredients);
+
+    const priceDeduction = +props.ingredient_prices[type];
+    const totalPrice = +props.totalPrice - priceDeduction;
+
+    const updatedResult = {
+      ingredients: newIngredients,
+      totalPrice: totalPrice,
+      purchasabled: isPurchase,
+    };
+
+    onRemoveIngredient(updatedResult);
   };
 
   return (
@@ -145,8 +169,11 @@ const mapDispatchToProps = dispatch => {
         type: BurgerActionTypes.ADD_INGREDIENT,
         payload: data,
       }),
-    onRemoveIngredient: () => {
-      return dispatch({ type: BurgerActionTypes.REMOVE_INGREDIENT });
+    onRemoveIngredient: data => {
+      return dispatch({
+        type: BurgerActionTypes.REMOVE_INGREDIENT,
+        payload: data,
+      });
     },
   };
 };

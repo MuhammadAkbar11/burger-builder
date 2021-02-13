@@ -6,8 +6,8 @@ const BurgerActionsHandler = {
     };
   },
   // remove
-  removeIngredient: state => {
-    console.log(state, "remove");
+  removeIngredient: (state, payload) => {
+    return { ...state, ...payload };
   },
 };
 
