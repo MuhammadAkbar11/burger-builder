@@ -163,21 +163,11 @@ const BurgerBuilder2 = () => {
         <Grid container className={`${classes.container}`}>
           <Grid item md={7} lg={8} className={classes.item}>
             <Box className={`${classes.burgerBox}`}>
-              <Burger
-                ingredients={ingredients}
-                totalPrice={totalPrice}
-                purchasing={purchasing}
-              />
+              <Burger />
             </Box>
           </Grid>
           <Grid item md={5} lg={4} className={`${classes.item} right`}>
-            <BuildControls
-              ingredients={ingredients}
-              ingredientRemove={removeIngredientHandler}
-              ingredientAdded={addIngredientHandler}
-              purchase={purchasabled}
-              ordered={() => setPurchasing(true)}
-            />
+            <BuildControls />
           </Grid>
         </Grid>
       </Container>
