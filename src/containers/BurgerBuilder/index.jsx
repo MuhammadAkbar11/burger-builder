@@ -35,60 +35,6 @@ const BurgerBuilder2 = () => {
     subTitle: "Your order was successful",
   });
 
-  const purchaseContinueHandler = () => {
-    history.push("checkout");
-    // setPurchasing(false);
-    // setLoading(true);
-    // const order = {
-    //   ingredients: ingredients,
-    //   price: totalPrice,
-    //   costumer: {
-    //     userId: 1,
-    //     name: "Akbar",
-    //     email: "akbar@gmail.com",
-    //     address: {
-    //       street: "jln Antara",
-    //       zipCode: "12345",
-    //       city: "Bekasi",
-    //     },
-    //   },
-    //   deliveryMethod: "fastest",
-    // };
-    // try {
-    //   const orderListRef = await firebase.database().ref("orders");
-    //   orderListRef.push().set(order, err => {
-    //     if (err) {
-    //       return setAlert(prevState => {
-    //         return {
-    //           show: true,
-    //           type: "error",
-    //           title: prevState.title,
-    //           subTitle: prevState.subTitle,
-    //         };
-    //       });
-    //     } else {
-    //       setTimeout(() => {
-    //         setPurchasing(false);
-    //         setLoading(false);
-    //         setAlert(prevState => {
-    //           return {
-    //             show: true,
-    //             type: "success",
-    //             title: prevState.title,
-    //             subTitle: prevState.subTitle,
-    //           };
-    //         });
-    //         setIngredients([]);
-    //         setTotalPrice(7000);
-    //       }, 1500);
-    //     }
-    //   });
-    // } catch {
-    //   setLoading(false);
-    //   return console.log("try");
-    // }
-  };
-
   let orderSummary = (
     <OrderModal
       open={purchasing}
