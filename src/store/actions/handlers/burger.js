@@ -1,6 +1,9 @@
-const BurgerHandleActions = {
-  addIngredient: state => {
-    console.log(state, "Handler");
+const BurgerActionsHandler = {
+  addIngredient: (state, payload = {}) => {
+    return {
+      ...state,
+      ...payload,
+    };
   },
   // remove
   removeIngredient: state => {
@@ -8,4 +11,4 @@ const BurgerHandleActions = {
   },
 };
 
-export default BurgerHandleActions;
+export default BurgerActionsHandler;
