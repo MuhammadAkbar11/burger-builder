@@ -4,38 +4,9 @@ import useStyles from "./styles";
 
 import { Box, Button, Container, Paper, styled } from "@material-ui/core";
 
-import meatImg from "../../../assets/svg/meat.svg";
-import saladImg from "../../../assets/svg/seeds.svg";
-import tomatoImg from "../../../assets/svg/tomato-left.svg";
-import cheeseImg from "../../../assets/svg/cheese.svg";
 import BuildControl from "./BuildControl.jsx";
-
-const controls = [
-  {
-    label: "Salad",
-    type: "salad",
-    img: saladImg,
-    price: 6000,
-  },
-  {
-    label: "Meat",
-    type: "meat",
-    img: meatImg,
-    price: 12000,
-  },
-  {
-    label: "Tomato",
-    type: "tomato",
-    img: tomatoImg,
-    price: 3000,
-  },
-  {
-    label: "Cheese",
-    type: "cheese",
-    img: cheeseImg,
-    price: 5000,
-  },
-];
+import { BurgerActionTypes } from "../../../store/actions/types";
+import { connect } from "react-redux";
 
 const CheckoutButton = styled(Button)({
   backgroundColor: "#f5b316",
@@ -63,7 +34,15 @@ const CheckoutButton = styled(Button)({
 
 const BuildControls = props => {
   const classes = useStyles();
-  const { ingredients } = props;
+  const {
+    ingredientId,
+    ingredients,
+    controls,
+    onAddIngredient,
+    onRemoveIngredient,
+  } = props;
+
+  console.log(props);
 
   let disabledInfo = controls
     .map(ctl => ctl.type)
@@ -80,17 +59,43 @@ const BuildControls = props => {
       return data;
     }, {});
 
+  const addIngredientHandler = type => {
+    const oldIngredients = [...ingredients];
+    const updatedIngredients = [
+      {
+        id: ingredientId,
+        ingredient: type,
+      },
+      ...oldIngredients,
+    ];
+    const isPurchase = updatedIngredients.length > 0;
+
+    const priceAddition = +props.ingredient_prices[type];
+    const totalPrice = +props.totalPrice + priceAddition;
+
+    const updatedResult = {
+      ingredientId: ingredientId + 1,
+      ingredients: updatedIngredients,
+      totalPrice: totalPrice,
+      purchasabled: isPurchase,
+    };
+    onAddIngredient(updatedResult);
+  };
+
+  const removeIngredientHandler = type => {
+    onRemoveIngredient(type);
+  };
+
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
         <Box className={classes.controls}>
           {controls.map((item, index) => {
-            console.log(disabledInfo[item.type]);
             return (
               <div key={`${item.label}${index + 1}`}>
                 <BuildControl
-                  added={() => props.ingredientAdded(item.type)}
-                  remove={() => props.ingredientRemove(item.type)}
+                  added={() => addIngredientHandler(item.type)}
+                  remove={() => removeIngredientHandler(item.type)}
                   icon={item.img}
                   label={item.label}
                   type={item.type}
@@ -103,7 +108,6 @@ const BuildControls = props => {
           })}
         </Box>
         <CheckoutButton
-          onClick={props.ordered}
           size="large"
           variant="contained"
           disabled={!props.purchase ? true : false}
@@ -123,4 +127,28 @@ BuildControls.propTypes = {
   ordered: PropTypes.func,
 };
 
-export default BuildControls;
+const mapStateToProps = state => {
+  return {
+    ingredientId: state.burger.ingredientId,
+    ingredients: state.burger.ingredients,
+    ingredient_prices: state.burger.ingredient_prices,
+    totalPrice: state.burger.totalPrice,
+    controls: state.burger.controls,
+    purchase: state.burger.purchasabled,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddIngredient: data =>
+      dispatch({
+        type: BurgerActionTypes.ADD_INGREDIENT,
+        payload: data,
+      }),
+    onRemoveIngredient: () => {
+      return dispatch({ type: BurgerActionTypes.REMOVE_INGREDIENT });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuildControls);
