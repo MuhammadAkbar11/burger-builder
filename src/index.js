@@ -1,13 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { combineReducers, createStore } from "redux";
+import BurgerReducer from "./store/reducers/burger";
+
+const rootReducer = combineReducers({
+  burger: BurgerReducer,
+});
+
+const store = createStore(rootReducer);
 
 const app = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById("root"));
