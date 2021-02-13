@@ -8,6 +8,8 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+
+import { connect } from "react-redux";
 import formatRupiah from "../../utils/formatRupiah";
 
 const useStyle = makeStyles(theme => ({
@@ -79,7 +81,7 @@ const useStyle = makeStyles(theme => ({
 const Burger = props => {
   const burgerStyles = useStyle();
 
-  const { ingredients } = props;
+  const { ingredients, totalPrice } = props;
 
   let transformedIngredients;
 
@@ -94,7 +96,8 @@ const Burger = props => {
       </Typography>
     );
   }
-  const totalPrice = formatRupiah(props.totalPrice);
+  const formatPrice = formatRupiah(+totalPrice);
+
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
@@ -105,7 +108,7 @@ const Burger = props => {
         </CardContent>
         <Box mt={4}>
           <Typography className={burgerStyles.textprice}>
-            Total<span className={`price`}> : {totalPrice}</span>
+            Total<span className={`price`}> : {formatPrice}</span>
           </Typography>
         </Box>
       </Card>
@@ -113,4 +116,9 @@ const Burger = props => {
   );
 };
 
-export default Burger;
+const mapStateToProps = state => ({
+  ingredients: state.burger.ingredients,
+  totalPrice: state.burger.totalPrice,
+});
+
+export default connect(mapStateToProps)(Burger);
