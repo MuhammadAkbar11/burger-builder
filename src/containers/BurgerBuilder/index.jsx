@@ -35,46 +35,6 @@ const BurgerBuilder2 = () => {
     subTitle: "Your order was successful",
   });
 
-  const updatePurchaseState = data => {
-    setPurchasabled(data.length > 0);
-  };
-
-  const addIngredientHandler = type => {
-    setIngredientId(prevState => prevState + 1);
-
-    const oldIgredients = [...ingredients];
-    const updatedIngredients = [
-      {
-        id: ingredientId,
-        ingredient: type,
-      },
-      ...oldIgredients,
-    ];
-
-    setIngredients(updatedIngredients);
-
-    const priceAddition = +INGREDIENT_PRICES[type];
-    setTotalPrice(prevPrice => +prevPrice + priceAddition);
-    updatePurchaseState(updatedIngredients);
-  };
-
-  const removeIngredientHandler = type => {
-    const selectedIgredient = ingredients.filter(item => {
-      return item.ingredient === type;
-    });
-    selectedIgredient.shift(); // menghapus element pertama setelah di filter
-    const notSelected = ingredients.filter(item => item.ingredient !== type); // element yg tidak terhapus dgn type yg berbeda
-
-    const newIngredients = [...selectedIgredient, ...notSelected];
-    newIngredients
-      .sort((a, b) => (a.id < b.id ? -1 : Number(a.id > b.id)))
-      .reverse();
-    setIngredients(newIngredients);
-    updatePurchaseState(newIngredients);
-    const priceDeduction = +INGREDIENT_PRICES[type];
-    setTotalPrice(prevPrice => +prevPrice - priceDeduction);
-  };
-
   const purchaseContinueHandler = () => {
     history.push("checkout");
     // setPurchasing(false);
