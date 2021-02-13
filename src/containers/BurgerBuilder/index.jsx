@@ -20,40 +20,40 @@ const INGREDIENT_PRICES = {
 const BurgerBuilder2 = () => {
   const classes = useStyles();
 
-  const [alert, setAlert] = React.useState({
-    show: false,
-    type: "success",
-    title: "Success",
-    subTitle: "Your order was successful",
-  });
+  // const [alert, setAlert] = React.useState({
+  //   show: false,
+  //   type: "success",
+  //   title: "Success",
+  //   subTitle: "Your order was successful",
+  // });
 
-  let orderSummary = (
-    <OrderModal
-      open={purchasing}
-      title="Your Order"
-      handleCancelled={() => setPurchasing(false)}
-      handleContinue={purchaseContinueHandler}
-    >
-      <OrderSummary ingredients={ingredients} totalPrice={totalPrice} />
-    </OrderModal>
-  );
+  // let orderSummary = (
+  //   <OrderModal
+  //     open={purchasing}
+  //     title="Your Order"
+  //     handleCancelled={() => setPurchasing(false)}
+  //     handleContinue={purchaseContinueHandler}
+  //   >
+  //     <OrderSummary ingredients={ingredients} totalPrice={totalPrice} />
+  //   </OrderModal>
+  // );
 
-  if (loading) {
-    orderSummary = <Spinner open={true} />;
-  }
+  // if (loading) {
+  //   orderSummary = <Spinner open={true} />;
+  // }
 
-  let containAlert;
-  if (alert.show) {
-    containAlert = (
-      <Alert
-        type={alert.type}
-        show={true}
-        title={alert.title}
-        subtitle={alert.subTitle}
-        onClose={() => setAlert(prevState => ({ ...prevState, show: false }))}
-      />
-    );
-  }
+  // let containAlert;
+  // if (alert.show) {
+  //   containAlert = (
+  //     <Alert
+  //       type={alert.type}
+  //       show={true}
+  //       title={alert.title}
+  //       subtitle={alert.subTitle}
+  //       onClose={() => setAlert(prevState => ({ ...prevState, show: false }))}
+  //     />
+  //   );
+  // }
 
   return (
     <Fragment>
@@ -69,7 +69,6 @@ const BurgerBuilder2 = () => {
           </Grid>
         </Grid>
       </Container>
-      {orderSummary}
       {containAlert}
     </Fragment>
   );
