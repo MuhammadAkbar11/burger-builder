@@ -19,15 +19,7 @@ const INGREDIENT_PRICES = {
 
 const BurgerBuilder2 = () => {
   const classes = useStyles();
-  const history = useHistory();
 
-  const [ingredientId, setIngredientId] = React.useState(1);
-  const [ingredients, setIngredients] = React.useState([]);
-
-  const [totalPrice, setTotalPrice] = React.useState(7000);
-  const [purchasabled, setPurchasabled] = React.useState(false);
-  const [purchasing, setPurchasing] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [alert, setAlert] = React.useState({
     show: false,
     type: "success",
