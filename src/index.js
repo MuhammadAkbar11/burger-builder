@@ -6,9 +6,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { combineReducers, createStore } from "redux";
 import BurgerReducer from "./store/reducers/burger";
+import CartReducer from "./store/reducers/cart";
 
 const rootReducer = combineReducers({
   burger: BurgerReducer,
+  cart: CartReducer,
 });
 
 const store = createStore(rootReducer);
