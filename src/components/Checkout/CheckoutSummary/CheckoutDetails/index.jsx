@@ -13,24 +13,6 @@ import useStyles from "./styles";
 const CheckoutDetails = () => {
   const classes = useStyles();
 
-  const [count, setCount] = React.useState(1);
-
-  const handleCounter = type => {
-    if (type === "plus") {
-      setCount(prevState => prevState + 1);
-    } else {
-      setCount(prevState => {
-        let update;
-        if (prevState > 1) {
-          update = prevState - 1;
-        } else {
-          update = prevState;
-        }
-        setCount(update);
-      });
-    }
-  };
-
   return (
     <Box className={classes.root}>
       <Card variant="outlined" className={classes.cardOrderDetail}>
@@ -49,37 +31,7 @@ const CheckoutDetails = () => {
               Burgers
             </Typography>
 
-            <div className={`${classes.flex}`}>
-              <div className={`${classes.flexItem}`}>
-                <Typography>Qty</Typography>
-              </div>
-              <div className={`${classes.flexItem} ${classes.counter}`}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleCounter("minus")}
-                  className={classes.button}
-                  disabled={count < 2 ? true : false}
-                >
-                  -
-                </Button>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  className={classes.inputCounter}
-                  value={count}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={() => handleCounter("plus")}
-                >
-                  +
-                </Button>
-              </div>
-            </div>
-
+            {/*
             {[
               {
                 ingredient: "Bread Top",
@@ -108,7 +60,7 @@ const CheckoutDetails = () => {
                   </div>
                 </div>
               );
-            })}
+            })} */}
           </Box>
         </CardContent>
       </Card>
