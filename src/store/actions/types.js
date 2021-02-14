@@ -1,6 +1,7 @@
 const BurgerActionTypes = {
   ADD_INGREDIENT: "ADD_INGREDIENT",
   REMOVE_INGREDIENT: "REMOVE_INGREDIENT",
+  SET_BURGER_NAME: "SET_BURGER_NAME",
 };
 
 const FeedBackActionTypes = {

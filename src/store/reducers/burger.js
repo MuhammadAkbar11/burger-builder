@@ -7,6 +7,7 @@ import tomatoImg from "../../assets/svg/tomato-left.svg";
 import cheeseImg from "../../assets/svg/cheese.svg";
 
 const initialState = {
+  name: "",
   ingredientId: 1,
   ingredients: [],
   totalPrice: 7000,
@@ -43,9 +44,10 @@ const initialState = {
     tomato: 3000,
   },
   purchasabled: false,
+  showSummary: false,
 };
 
-const { addIngredient, removeIngredient } = BurgerActionsHandler;
+const { addIngredient, removeIngredient, setBurgerName } = BurgerActionsHandler;
 
 const BurgerReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -53,6 +55,8 @@ const BurgerReducer = (state = initialState, action) => {
       return addIngredient(state, action.payload);
     case BurgerActionTypes.REMOVE_INGREDIENT:
       return removeIngredient(state, action.payload);
+    case BurgerActionTypes.SET_BURGER_NAME:
+      return setBurgerName(state, action.payload);
     default:
       return state;
   }
