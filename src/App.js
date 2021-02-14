@@ -9,6 +9,7 @@ import Layout from "./components/Layouts/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Checkout from "./containers/Checkout";
+import Home from "./containers/Home";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,9 +49,9 @@ function App() {
         <CssBaseline />
         <Layout>
           <Switch>
-            <Route path="/builder" exact component={BurgerBuilder} />
+            <Route path="/" exact component={Home} />
+            <Route path="/builder" component={BurgerBuilder} />
             <Route path="/checkout" component={Checkout} />
-            <Redirect from="/" to="builder" />
           </Switch>
         </Layout>
       </div>
