@@ -4,9 +4,13 @@ import useStyles from "./styles";
 
 import { Box, Button, Container, Paper, styled } from "@material-ui/core";
 
-import BuildControl from "./BuildControl.jsx";
-import { BurgerActionTypes } from "../../../store/actions/types";
+import BuildControl from "./BuildControl.jsx/index.jsx";
+import {
+  BurgerActionTypes,
+  CartActionTypes,
+} from "../../../store/actions/types";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const CheckoutButton = styled(Button)({
   backgroundColor: "#f5b316",
@@ -42,7 +46,7 @@ const BuildControls = props => {
     onRemoveIngredient,
   } = props;
 
-  console.log(props);
+  const history = useHistory();
 
   let disabledInfo = controls
     .map(ctl => ctl.type)
@@ -110,6 +114,11 @@ const BuildControls = props => {
     onRemoveIngredient(updatedResult);
   };
 
+  const goBuilderSummary = e => {
+    e.preventDefault();
+    history.push("/builder/summary");
+  };
+
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
@@ -132,11 +141,12 @@ const BuildControls = props => {
           })}
         </Box>
         <CheckoutButton
+          onClick={goBuilderSummary}
           size="large"
           variant="contained"
           disabled={!props.purchase ? true : false}
         >
-          Order now!
+          Add to Cart
         </CheckoutButton>
       </Paper>
     </Container>
