@@ -60,12 +60,14 @@ const useStyle = makeStyles(theme => ({
   },
 
   body1: {
-    color: "#f5b316",
+    color: theme.palette.slatelight,
     fontSize: "1rem",
-    marginTop: "5px",
-    marginBottom: "5px",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    marginLeft: "-4px",
     textAlign: "center",
     opacity: "0.9",
+    whiteSpace: "nowrap",
   },
   textprice: {
     fontSize: "1.2em",
