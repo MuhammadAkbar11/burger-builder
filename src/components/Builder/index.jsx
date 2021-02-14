@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Box } from "@material-ui/core";
-import BuildControls from "../Burger/BuildControls";
+import BuildControls from "./BuildControls";
 import Burger from "../Burger";
 import useStyles from "./styles";
 import { Redirect, useHistory } from "react-router-dom";
