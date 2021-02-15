@@ -4,9 +4,10 @@ import { Container } from "@material-ui/core";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { BurgerActionTypes } from "../../store/actions/types";
-import BuilderSummary from "../../components/Burger/BuilderSummary";
+
 import Started from "../../components/Builder/GetStarted";
 import BuilderContainer from "../../components/Builder";
+import BuilderSummary from "../../components/Builder/BuilderSummary";
 
 const BurgerBuilder2 = props => {
   const classes = useStyles();
@@ -20,20 +21,24 @@ const BurgerBuilder2 = props => {
 
   return (
     <Fragment>
-      <Container className={classes.root}>
-        <Switch>
-          <Route exact path={props.match.path}>
+      <Switch>
+        <Route exact path={props.match.path}>
+          <Container maxWidth="xl" className={classes.root}>
             <BuilderContainer burgerName={props.burgerName} />
-          </Route>
-          <Route path={`${props.match.path}/start`}>
+          </Container>
+        </Route>
+        <Route path={`${props.match.path}/start`}>
+          <Container maxWidth="xl" className={classes.root}>
             <Started
               onSetBurgerName={setBurgerName}
               isStarted={props.burgerName.trim() === ""}
             />
-          </Route>
-        </Switch>
-      </Container>
-      <BuilderSummary />
+          </Container>
+        </Route>
+        <Route path={`${props.match.path}/summary`}>
+          <BuilderSummary />
+        </Route>
+      </Switch>
     </Fragment>
   );
 };
