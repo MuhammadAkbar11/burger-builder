@@ -24,6 +24,12 @@ const GetStarted = props => {
 
   let content = (
     <React.Fragment>
+      <Box my={2}>
+        {" "}
+        <Typography variant="h3" color="primary">
+          Build your own burger{" "}
+        </Typography>
+      </Box>
       <Typography variant="h6" className={classes.title}>
         Your burger Name?
       </Typography>
