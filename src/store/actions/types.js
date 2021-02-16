@@ -16,4 +16,14 @@ const CartActionTypes = {
   UPDATE_CART: "UPDATE_CART",
 };
 
-export { BurgerActionTypes, FeedBackActionTypes, CartActionTypes };
+const AppActionTypes = {
+  OPEN_MOBILE_DRAWER: "OPEN_MOBILE_DRAWER",
+  CLOSE_MOBILE_DRAWER: "CLOSE_MOBILE_DRAWER",
+};
+
+export {
+  BurgerActionTypes,
+  FeedBackActionTypes,
+  CartActionTypes,
+  AppActionTypes,
+};
