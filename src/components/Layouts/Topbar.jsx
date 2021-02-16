@@ -3,8 +3,8 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-
-import { Box, Link as LinkItem } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import { Box, Hidden, IconButton, Link as LinkItem } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme =>
@@ -33,12 +33,6 @@ const useStyles = makeStyles(theme =>
       flexGrow: 1,
     },
 
-    links: {
-      [theme.breakpoints.down("xs")]: {
-        display: "none",
-      },
-    },
-
     link: {
       color: "#dae1e7",
       marginLeft: theme.spacing(2),
@@ -58,10 +52,15 @@ const useStyles = makeStyles(theme =>
         marginRight: theme.spacing(1),
       },
     },
+    toggle: {
+      "&:hover": {
+        color: theme.palette.primary.main,
+      },
+    },
   })
 );
 
-const TopBar = () => {
+const TopBar = props => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -82,23 +81,33 @@ const TopBar = () => {
           <Typography variant="h6" className={classes.title}>
             BurgerBuilder
           </Typography>
-          <Box display="flex" className={classes.links}>
-            <LinkItem
-              underline="none"
-              className={`${classes.link} ${setActive(pathName, "builder")}`}
-              component={Link}
-              to="/builder"
-            >
-              Builder
-            </LinkItem>
+          <Box display="flex">
+            <Hidden smDown implementation="css">
+              <LinkItem
+                underline="none"
+                className={`${classes.link} ${setActive(pathName, "builder")}`}
+                component={Link}
+                to="/builder"
+              >
+                Builder
+              </LinkItem>
 
-            <LinkItem
-              underline="none"
-              className={`${classes.link} ${setActive(pathName, "login")}`}
-              component="span"
-            >
-              Login
-            </LinkItem>
+              <LinkItem
+                underline="none"
+                className={`${classes.link} ${setActive(pathName, "login")}`}
+                component="span"
+              >
+                Login
+              </LinkItem>
+            </Hidden>
+            <Hidden smUp implementation="css">
+              <IconButton
+                className={classes.toggle}
+                onClick={props.onOpenMobileDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
           </Box>
         </Toolbar>
       </AppBar>
