@@ -32,6 +32,13 @@ const useStyles = makeStyles(theme =>
     title: {
       flexGrow: 1,
     },
+
+    links: {
+      [theme.breakpoints.down("xs")]: {
+        display: "none",
+      },
+    },
+
     link: {
       color: "#dae1e7",
       marginLeft: theme.spacing(2),
@@ -54,13 +61,19 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const TopBar = props => {
+const TopBar = () => {
   const classes = useStyles();
   const history = useHistory();
 
   const pathName = history.location.pathname;
 
-  const setActive = (url, match) => (url === match ? "active" : "");
+  const setActive = (url, match) => {
+    const filteredUrl = url
+      .split("/")
+      .filter(item => item !== "")
+      .filter(item => item === match);
+    return filteredUrl.length > 0 ? "active" : "";
+  };
 
   return (
     <div className={classes.root}>
@@ -69,10 +82,10 @@ const TopBar = props => {
           <Typography variant="h6" className={classes.title}>
             BurgerBuilder
           </Typography>
-          <Box display="flex">
+          <Box display="flex" className={classes.links}>
             <LinkItem
               underline="none"
-              className={`${classes.link} ${setActive(pathName, "/builder")}  `}
+              className={`${classes.link} ${setActive(pathName, "builder")}`}
               component={Link}
               to="/builder"
             >
@@ -81,7 +94,7 @@ const TopBar = props => {
 
             <LinkItem
               underline="none"
-              className={classes.link}
+              className={`${classes.link} ${setActive(pathName, "login")}`}
               component="span"
             >
               Login
