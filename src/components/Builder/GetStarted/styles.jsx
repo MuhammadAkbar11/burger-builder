@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
       width: "300px",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "100%",
+      width: "90%",
     },
   },
   button: {

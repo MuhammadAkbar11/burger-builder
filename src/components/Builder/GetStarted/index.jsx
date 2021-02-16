@@ -26,7 +26,7 @@ const GetStarted = props => {
     <React.Fragment>
       <Box my={2}>
         {" "}
-        <Typography variant="h3" color="primary">
+        <Typography variant="h3" align="center" color="primary">
           Build your own burger{" "}
         </Typography>
       </Box>
