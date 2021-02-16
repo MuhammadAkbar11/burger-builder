@@ -3,7 +3,7 @@ import { Grid, Box } from "@material-ui/core";
 import BuildControls from "./BuildControls";
 import Burger from "../Burger";
 import useStyles from "./styles";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 const BurgerBuilderContain = props => {
   const classes = useStyles();

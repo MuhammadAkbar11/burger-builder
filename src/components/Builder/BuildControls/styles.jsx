@@ -1,4 +1,28 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, styled, Button } from "@material-ui/core";
+
+export const CheckoutButton = styled(Button)({
+  backgroundColor: "#f5b316",
+  color: "#212121",
+  marginLeft: "15px",
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  width: "100%",
+  marginTop: "2rem",
+
+  "&:hover": {
+    backgroundColor: "#f5b216c9",
+  },
+  "&:active, &:focus": {
+    backgroundColor: "#f5b216c9",
+  },
+
+  "&:disabled": {
+    transform: "scale(0.9)",
+    color: "f2f2f2",
+    backgroundColor: "#f5b216c9",
+  },
+});
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -6,15 +30,15 @@ const useStyles = makeStyles(theme => ({
     flexFlow: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%",
+    height: "auto",
     width: "100%",
-    [theme.breakpoints.down("md")]: {
+    overflowX: "hidden",
+    marginTop: theme.spacing(1),
+
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "start",
       paddingBottom: "4rem",
-      paddingTop: theme.spacing(14),
-    },
-    [theme.breakpoints.down("md")]: {
-      paddingBottom: "4rem",
-      paddingTop: theme.spacing(4),
+      paddingTop: theme.spacing(8),
     },
   },
   paper: {
@@ -23,14 +47,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+
     backgroundColor: "transparent",
     boxShadow: "none",
-
-    [theme.breakpoints.only("sm")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      paddingBottom: "4rem",
+    [theme.breakpoints.down("md")]: {
+      justifyContent: "start",
     },
   },
   controls: {
@@ -38,12 +59,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-
     width: "100%",
-    [theme.breakpoints.only("sm")]: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
+  },
+  buttonCounter: {
+    fontSize: "1.2rem",
+
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
   },
 }));
 

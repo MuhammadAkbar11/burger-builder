@@ -1,43 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useStyles from "./styles";
+import useStyles, { CheckoutButton } from "./styles";
 
-import { Box, Button, Container, Paper, styled } from "@material-ui/core";
-
-import BuildControl from "./BuildControl.jsx/index.jsx";
-import {
-  BurgerActionTypes,
-  CartActionTypes,
-} from "../../../store/actions/types";
+import { Container, Hidden, Paper } from "@material-ui/core";
+import { BurgerActionTypes } from "../../../store/actions/types";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-
-const CheckoutButton = styled(Button)({
-  backgroundColor: "#f5b316",
-  color: "#212121",
-  marginLeft: "15px",
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "center",
-  width: "100%",
-  marginTop: "2rem",
-
-  "&:hover": {
-    backgroundColor: "#f5b216c9",
-  },
-  "&:active, &:focus": {
-    backgroundColor: "#f5b216c9",
-  },
-
-  "&:disabled": {
-    transform: "scale(0.9)",
-    color: "f2f2f2",
-    backgroundColor: "#f5b216c9",
-  },
-});
+import Controls from "./Controls";
 
 const BuildControls = props => {
   const classes = useStyles();
+
   const {
     ingredientId,
     ingredients,
@@ -122,24 +95,24 @@ const BuildControls = props => {
   return (
     <Container className={classes.root}>
       <Paper className={classes.paper}>
-        <Box className={classes.controls}>
-          {controls.map((item, index) => {
-            return (
-              <div key={`${item.label}${index + 1}`}>
-                <BuildControl
-                  added={() => addIngredientHandler(item.type)}
-                  remove={() => removeIngredientHandler(item.type)}
-                  icon={item.img}
-                  label={item.label}
-                  type={item.type}
-                  price={item.price}
-                  disabled={disabledInfo[item.type].disabled}
-                  total={disabledInfo[item.type].total}
-                />
-              </div>
-            );
-          })}
-        </Box>
+        <Hidden smDown implementation="css">
+          <Controls
+            type="tabletUp"
+            ingredientCtrls={controls}
+            ingredients={ingredients}
+            onAdd={addIngredientHandler}
+            onRemove={removeIngredientHandler}
+          />
+        </Hidden>
+        <Hidden mdUp implementation="css">
+          <Controls
+            type="tabletDown"
+            ingredientCtrls={controls}
+            ingredients={ingredients}
+            onAdd={addIngredientHandler}
+            onRemove={removeIngredientHandler}
+          />
+        </Hidden>
         <CheckoutButton
           onClick={goBuilderSummary}
           size="large"
