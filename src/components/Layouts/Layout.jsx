@@ -1,7 +1,16 @@
 import React, { Fragment } from "react";
 import Aux from "../../hoc/Aux";
 import TopBar from "./Topbar";
-import { Box, Divider, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Divider,
+  Hidden,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import MobileDrawer from "./MobileDrawer";
+import { AppActionTypes } from "../../store/actions/types";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,8 +47,12 @@ const Layout = props => {
   return (
     <Aux>
       <Box className={classes.root}>
-        <TopBar />
+        <TopBar onOpenMobileDrawer={props.onOpenMobileDrawer} />
         <Fragment>{props.children}</Fragment>
+        <Hidden smUp implementation="css">
+          {" "}
+          <MobileDrawer />
+        </Hidden>
         <Box className={classes.footer}>
           <Divider className={classes.divider} />
           <Typography variant="body1">Muhammad Akbar 2020</Typography>
@@ -49,4 +62,20 @@ const Layout = props => {
   );
 };
 
-export default Layout;
+const mapStateToProps = state => {
+  return {
+    app: {
+      ...state.app,
+    },
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onOpenMobileDrawer: () => {
+      dispatch({ type: AppActionTypes.OPEN_MOBILE_DRAWER });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
