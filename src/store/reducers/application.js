@@ -3,6 +3,23 @@ import AppActionsHandler from "../actions/handlers/application";
 
 const initialState = {
   isOpenDrawer: false,
+  menu: [
+    {
+      url: "/home",
+      label: "Home",
+      match: "home",
+    },
+    {
+      url: "/burger",
+      label: "Burgers",
+      match: "burgers",
+    },
+    {
+      url: "/builder",
+      label: "Builder",
+      match: "builder",
+    },
+  ],
 };
 
 const { openDrawer, closeDrawer } = AppActionsHandler;
