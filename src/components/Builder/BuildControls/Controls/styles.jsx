@@ -9,11 +9,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   ingredientBoxLabel: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.slate,
     "& .price": {
       textTransform: "uppercase",
       fontWeight: 700,
-      color: theme.palette.primary.main,
+      color: theme.palette.slatelight,
       marginRight: theme.spacing(1),
     },
     "& > *": {
