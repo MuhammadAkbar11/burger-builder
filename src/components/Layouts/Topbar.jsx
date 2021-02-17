@@ -5,7 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Box, Hidden, IconButton, Link as LinkItem } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import useActiveClass from "../../hooks/useActiveClass";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -62,17 +63,12 @@ const useStyles = makeStyles(theme =>
 
 const TopBar = props => {
   const classes = useStyles();
-  const history = useHistory();
 
-  const pathName = history.location.pathname;
+  const activeClass = useActiveClass({
+    activeClass: "active",
+  });
 
-  const setActive = (url, match) => {
-    const filteredUrl = url
-      .split("/")
-      .filter(item => item !== "")
-      .filter(item => item === match);
-    return filteredUrl.length > 0 ? "active" : "";
-  };
+  const onActiveClass = value => activeClass(value);
 
   return (
     <div className={classes.root}>
@@ -82,19 +78,27 @@ const TopBar = props => {
             BurgerBuilder
           </Typography>
           <Box display="flex">
-            <Hidden smDown implementation="css">
-              <LinkItem
-                underline="none"
-                className={`${classes.link} ${setActive(pathName, "builder")}`}
-                component={Link}
-                to="/builder"
-              >
-                Builder
-              </LinkItem>
+            <Hidden xsDown implementation="css">
+              {props.menu.map((item, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    <LinkItem
+                      underline="none"
+                      className={`${classes.link} ${onActiveClass(
+                        item.match
+                      )} `}
+                      component={Link}
+                      to={item.url}
+                    >
+                      {item.label}
+                    </LinkItem>
+                  </React.Fragment>
+                );
+              })}
 
               <LinkItem
                 underline="none"
-                className={`${classes.link} ${setActive(pathName, "login")}`}
+                className={`${classes.link} ${onActiveClass("login")}`}
                 component="span"
               >
                 Login

@@ -9,9 +9,17 @@ import { ChevronRight } from "@material-ui/icons";
 import useStyles from "./styles";
 import { AppActionTypes } from "../../../store/actions/types";
 import { connect } from "react-redux";
+import useActiveClass from "../../../hooks/useActiveClass";
+import { useHistory } from "react-router-dom";
 
 const MobileDrawer = props => {
   const classes = useStyles();
+
+  const activeClass = useActiveClass({
+    activeClass: "active",
+  });
+
+  const history = useHistory();
 
   const drawer = (
     <Box fontSize={18} px={1}>
@@ -27,17 +35,17 @@ const MobileDrawer = props => {
       </Box>
       <Divider />
       <List>
-        {["Home", "Builder", "Account"].map((text, index) => (
-          <ListItem button key={text} className={classes.listItem}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["Orders", "Cart", "Logout"].map((text, index) => (
-          <ListItem button key={text} className={classes.listItem}>
-            <ListItemText primary={text} />
+        {props.menu.map((menu, index) => (
+          <ListItem
+            button
+            key={index}
+            onClick={() => history.push(menu.url)}
+            classes={{
+              root: classes.listItem,
+            }}
+            className={` ${activeClass(menu.match)} `}
+          >
+            <ListItemText primary={menu.label} />
           </ListItem>
         ))}
       </List>
@@ -61,6 +69,7 @@ const MobileDrawer = props => {
 const mapStateToProps = state => {
   return {
     open: state.app.isOpenDrawer,
+    menu: state.app.menu,
   };
 };
 

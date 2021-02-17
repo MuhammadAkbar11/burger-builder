@@ -8,9 +8,19 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: theme.mixins.toolbar,
   listItem: {
+    color: theme.palette.slatelight,
+    "& .MuiListItemText-root span": {
+      letterSpacing: "1px",
+    },
     "&:hover": {
-      color: "#333",
-      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.dark,
+      backgroundColor: `rgba(${theme.palette.dark}, 0.2)`,
+    },
+    "&.active": {
+      "& .MuiListItemText-root span": {
+        fontWeight: 800,
+      },
+      color: theme.palette.primary.main,
     },
   },
   toggle: {

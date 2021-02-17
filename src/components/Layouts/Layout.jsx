@@ -47,9 +47,12 @@ const Layout = props => {
   return (
     <Aux>
       <Box className={classes.root}>
-        <TopBar onOpenMobileDrawer={props.onOpenMobileDrawer} />
+        <TopBar
+          menu={props.app.menu}
+          onOpenMobileDrawer={props.onOpenMobileDrawer}
+        />
         <Fragment>{props.children}</Fragment>
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           {" "}
           <MobileDrawer />
         </Hidden>
