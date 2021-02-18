@@ -11,6 +11,7 @@ import {
 
 import { connect } from "react-redux";
 import formatRupiah from "../../utils/formatRupiah";
+import { BurgerActionTypes } from "../../store/actions/types";
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -50,7 +51,7 @@ const useStyle = makeStyles(theme => ({
   },
   cardContent: {
     [theme.breakpoints.up("lg")]: {
-      maxWidth: "35%",
+      maxWidth: "40%",
     },
 
     [theme.breakpoints.only("md")]: {
@@ -105,13 +106,38 @@ const useStyle = makeStyles(theme => ({
 const Burger = props => {
   const burgerStyles = useStyle();
 
-  const { ingredients, totalPrice } = props;
+  const { ingredients, totalPrice, onRemoveIngredientById } = props;
+
+  const updatePurchaseStatus = data => data.length > 0;
+
+  const removeIngredientById = (id, type) => {
+    const removeSelectedIngredient = ingredients.filter(ing => {
+      return ing.id !== id;
+    });
+
+    const updatedIngredients = [...removeSelectedIngredient];
+    const isPurchase = updatePurchaseStatus(updatedIngredients);
+    const priceDeduction = +props.ingredient_prices[type];
+    const totalPrice = +props.totalPrice - priceDeduction;
+
+    const updatedResult = {
+      ingredients: updatedIngredients,
+      totalPrice: totalPrice,
+      purchasabled: isPurchase,
+    };
+
+    onRemoveIngredientById(updatedResult);
+  };
 
   let transformedIngredients;
-
   transformedIngredients = ingredients.map(item => {
     return (
-      <div className={burgerStyles.ingredient} key={item.id} title="Remove">
+      <div
+        onClick={() => removeIngredientById(item.id, item.ingredient)}
+        className={burgerStyles.ingredient}
+        key={item.id}
+        title="Remove"
+      >
         <BurgerIngredients type={item.ingredient} />
       </div>
     );
@@ -126,7 +152,6 @@ const Burger = props => {
   }
   const formatPrice = formatRupiah(+totalPrice);
 
-  console.log(props);
   return (
     <Container className={burgerStyles.root}>
       <Card className={burgerStyles.card}>
@@ -154,8 +179,21 @@ const mapStateToProps = state => ({
   burger: {
     name: state.burger.name,
   },
+  ingredientId: state.burger.ingredientId,
   ingredients: state.burger.ingredients,
+  ingredient_prices: state.burger.ingredient_prices,
   totalPrice: state.burger.totalPrice,
 });
 
-export default connect(mapStateToProps)(Burger);
+const mapDispatchToProps = dispatch => {
+  return {
+    onRemoveIngredientById: data => {
+      return dispatch({
+        type: BurgerActionTypes.REMOVE_INGREDIENT,
+        payload: data,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Burger);
