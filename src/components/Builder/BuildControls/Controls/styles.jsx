@@ -3,9 +3,15 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   btnCounters: {
     fontSize: "1.2rem",
+    "&:disabled": {
+      color: "f2f2f2",
+      backgroundColor: "#f5b216c9",
+      opacity: 0.6,
+      cursor: "not-allowed",
+    },
     [theme.breakpoints.down("xs")]: {
       width: 50,
-      fontSize: "0.9rem",
+      fontSize: "0.5rem",
     },
   },
   ingredientBoxLabel: {
