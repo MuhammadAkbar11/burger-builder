@@ -10,6 +10,8 @@ const FeedBackActionTypes = {
 };
 
 const CartActionTypes = {
+  LOAD_CART: "LOAD_CART",
+  SET_ISUPDATED: "SET_ISUPDATED",
   ADD_CART: "ADD_CART",
   REMOVE_CART: "REMOVE_CART",
   REMOVE_CARTS: "REMOVE_CARTS",
