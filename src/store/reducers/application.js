@@ -10,7 +10,7 @@ const initialState = {
       match: "home",
     },
     {
-      url: "/burger",
+      url: "/burgers",
       label: "Burgers",
       match: "burgers",
     },
