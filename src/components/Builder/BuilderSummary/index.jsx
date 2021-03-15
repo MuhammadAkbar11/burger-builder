@@ -15,14 +15,14 @@ import useStyles from "./styles";
 import FinalIngredients from "./FinalIngredients";
 import formatRupiah from "../../../utils/formatRupiah";
 import { ShoppingCart } from "@material-ui/icons";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { CartActionTypes } from "../../../store/actions/types";
 import { realtimeDatabase } from "../../../services/firebase";
 
 const BuilderSummary = props => {
   const classes = useStyles();
   const { ingredients, burger } = props;
-
+  const history = useHistory();
   const newIngredients = [{ id: 99, ingredient: "breads" }, ...ingredients];
 
   const ingredientArray = newIngredients.map(ig => ig.ingredient);
@@ -78,7 +78,7 @@ const BuilderSummary = props => {
   const addToCart = async () => {
     const Resultingredients = ingredients;
     const finalTotalPrice = totalPrice;
-    const quanitity = qty;
+    const quantity = qty;
     setLoading(true);
     let id = 0;
     await realtimeDatabase.ref("carts").on(
@@ -96,8 +96,10 @@ const BuilderSummary = props => {
       .push({
         _id: newId,
         userId: "user-001",
+        burgerName: burger.name,
         ingredients: Resultingredients,
-        quanitity: quanitity,
+        ingredientsPrice: props.totalPrice,
+        quantity: quantity,
         totalPrice: finalTotalPrice,
       })
       .then(result => {
@@ -105,6 +107,7 @@ const BuilderSummary = props => {
       })
       .then(result => {
         setLoading(false);
+        history.push("/burgers");
       })
       .catch(err => console.log(err));
   };
