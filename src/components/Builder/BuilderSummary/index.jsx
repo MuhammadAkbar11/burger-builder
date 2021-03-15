@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Container,
   Grid,
   Typography,
@@ -15,6 +16,8 @@ import FinalIngredients from "./FinalIngredients";
 import formatRupiah from "../../../utils/formatRupiah";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link, Redirect } from "react-router-dom";
+import { CartActionTypes } from "../../../store/actions/types";
+import { realtimeDatabase } from "../../../services/firebase";
 
 const BuilderSummary = props => {
   const classes = useStyles();
@@ -23,13 +26,13 @@ const BuilderSummary = props => {
   const newIngredients = [{ id: 99, ingredient: "breads" }, ...ingredients];
 
   const ingredientArray = newIngredients.map(ig => ig.ingredient);
-
+  const [loading, setLoading] = React.useState(false);
   const [qty, setQty] = React.useState(1);
   const [totalPrice, setTotalPrice] = React.useState(props.totalPrice);
 
   let filteredIngredients = [...new Set(ingredientArray)].map(item => {
     const value = newIngredients.filter(ig => ig.ingredient === item);
-    console.log(value);
+
     return { ingredient: item, total: value.length };
   });
 
@@ -59,7 +62,7 @@ const BuilderSummary = props => {
     const newQty = oldQty + 1;
 
     setQty(newQty);
-    setTotalPrice(oldPrice => newQty * oldPrice);
+    setTotalPrice(newQty * props.totalPrice);
   };
 
   const decrementQty = () => {
@@ -70,6 +73,40 @@ const BuilderSummary = props => {
       setQty(newQty);
       setTotalPrice(newQty * props.totalPrice);
     }
+  };
+
+  const addToCart = async () => {
+    const Resultingredients = ingredients;
+    const finalTotalPrice = totalPrice;
+    const quanitity = qty;
+    setLoading(true);
+    let id = 0;
+    await realtimeDatabase.ref("carts").on(
+      "value",
+      snapshot => {
+        id = snapshot.val().cartAutoID;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    const newId = id + 1;
+    await realtimeDatabase
+      .ref("carts/cartItems")
+      .push({
+        _id: newId,
+        userId: "user-001",
+        ingredients: Resultingredients,
+        quanitity: quanitity,
+        totalPrice: finalTotalPrice,
+      })
+      .then(result => {
+        return realtimeDatabase.ref("carts/cartAutoID").set(newId);
+      })
+      .then(result => {
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
   };
 
   return filteredIngredients.length < 2 ? (
@@ -111,8 +148,23 @@ const BuilderSummary = props => {
                 >
                   -
                 </Button>
-                <Box marginX={3} display="flex" alignItems="center">
+                <Box
+                  marginX={3}
+                  display="flex"
+                  alignItems="center"
+                  flexDirection="column"
+                  justifyContent="center"
+                >
                   <span>{qty}</span>
+
+                  <Typography
+                    style={{
+                      color: "#8C8C8C",
+                    }}
+                    variant="caption"
+                  >
+                    Qty
+                  </Typography>
                 </Box>
                 <Button
                   size="large"
@@ -190,12 +242,25 @@ const BuilderSummary = props => {
                 Back To Builder
               </Link>
               <Button
+                style={{ position: "relative" }}
                 size="large"
                 color="primary"
                 startIcon={<ShoppingCart />}
                 variant="contained"
+                onClick={addToCart}
+                disabled={loading}
               >
-                Continue To Cart
+                {loading ? (
+                  <>
+                    <CircularProgress
+                      className={classes.buttonProgress}
+                      size={24}
+                    />{" "}
+                    Loading
+                  </>
+                ) : (
+                  "Continue To Cart"
+                )}
               </Button>
             </Box>
           </Grid>
