@@ -1,6 +1,5 @@
 const CartActionsHandler = {
-  addCart: state => {
-    console.log(state, "add");
+  addCart: (state, payload) => {
     return {
       ...state,
     };
