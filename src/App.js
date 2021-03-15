@@ -10,6 +10,7 @@ import BurgerBuilder from "./containers/BurgerBuilder";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Checkout from "./containers/Checkout";
 import Home from "./containers/Home";
+import Burger from "./containers/Burgers";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,6 +51,7 @@ function App() {
         <Layout>
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/burgers" component={Burger} />
             <Route path="/builder" component={BurgerBuilder} />
             <Route path="/checkout" component={Checkout} />
           </Switch>
