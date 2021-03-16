@@ -31,7 +31,6 @@ const CheckoutDetails = () => {
               Burgers
             </Typography>
 
-            {/*
             {[
               {
                 ingredient: "Bread Top",
@@ -60,7 +59,7 @@ const CheckoutDetails = () => {
                   </div>
                 </div>
               );
-            })} */}
+            })}
           </Box>
         </CardContent>
       </Card>

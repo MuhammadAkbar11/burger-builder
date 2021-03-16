@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
 import BurgerReducer from "./store/reducers/burger";
 import CartReducer from "./store/reducers/cart";
 import ApplicationReducer from "./store/reducers/application";
@@ -15,7 +15,18 @@ const rootReducer = combineReducers({
   app: ApplicationReducer,
 });
 
-const store = createStore(rootReducer);
+const logger = store => {
+  return next => {
+    return action => {
+      console.log("[middleware] dispatching", action);
+      const result = next(action);
+      console.log("[middleware] next state ", store.getState());
+      return result;
+    };
+  };
+};
+
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 const app = (
   <Provider store={store}>
