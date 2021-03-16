@@ -16,7 +16,7 @@ import FinalIngredients from "./FinalIngredients";
 import formatRupiah from "../../../utils/formatRupiah";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { CartActionTypes } from "../../../store/actions/types";
+import { BurgerActionTypes } from "../../../store/actions/types";
 import { realtimeDatabase } from "../../../services/firebase";
 
 const BuilderSummary = props => {
@@ -102,11 +102,14 @@ const BuilderSummary = props => {
         quantity: quantity,
         totalPrice: finalTotalPrice,
       })
-      .then(result => {
+      .then(() => {
         return realtimeDatabase.ref("carts/cartAutoID").set(newId);
       })
-      .then(result => {
+      .then(() => {
         setLoading(false);
+        return props.onClearIngs();
+      })
+      .then(() => {
         history.push("/burgers");
       })
       .catch(err => console.log(err));
@@ -286,7 +289,11 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    onClearIngs: () => {
+      return dispatch({ type: BurgerActionTypes.CLEAR_INGS, payload: {} });
+    },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuilderSummary);

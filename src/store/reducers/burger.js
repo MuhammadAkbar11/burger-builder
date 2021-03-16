@@ -48,7 +48,12 @@ const initialState = {
   showSummary: false,
 };
 
-const { addIngredient, removeIngredient, setBurgerName } = BurgerActionsHandler;
+const {
+  addIngredient,
+  removeIngredient,
+  setBurgerName,
+  clearAllIngs,
+} = BurgerActionsHandler;
 
 const BurgerReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -58,6 +63,8 @@ const BurgerReducer = (state = initialState, action) => {
       return removeIngredient(state, action.payload);
     case BurgerActionTypes.SET_BURGER_NAME:
       return setBurgerName(state, action.payload);
+    case BurgerActionTypes.CLEAR_INGS:
+      return clearAllIngs(state);
     default:
       return state;
   }

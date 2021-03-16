@@ -32,7 +32,6 @@ const CartActionsHandler = {
     };
   },
   updateCart: (state, payload) => {
-    console.log(state, payload);
     return {
       ...state,
       cartItems: payload.cartItems,
