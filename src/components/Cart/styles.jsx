@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   },
   cartFooter: {
     borderTop: "1px solid #333",
+    maxHeight: 60,
+    height: 60,
+    boxSizing: "border-box",
   },
   cartBody: {
     height: "400px",
@@ -31,6 +34,11 @@ const useStyles = makeStyles(theme => ({
       background: "#f5b316",
       borderRadius: "2px",
     },
+  },
+
+  btnOrder: {
+    maxHeight: 50,
+    height: 50,
   },
 }));
 

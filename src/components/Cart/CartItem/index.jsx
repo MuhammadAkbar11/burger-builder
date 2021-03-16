@@ -13,7 +13,7 @@ const CartItem = props => {
   return (
     <Box
       mt={2}
-      minHeight={100}
+      minHeight={80}
       width="100%"
       display="flex"
       justifyContent="start"
@@ -25,7 +25,7 @@ const CartItem = props => {
       borderRadius={3}
     >
       <Box
-        minHeight={100}
+        minHeight={80}
         display="flex"
         flexWrap="wrap"
         alignItems="flex-end"
@@ -41,7 +41,7 @@ const CartItem = props => {
         </Box>
       </Box>
       <Box
-        minHeight={100}
+        minHeight={80}
         display="flex"
         flexDirection="column"
         flex={1}
@@ -78,7 +78,7 @@ const CartItem = props => {
         </Box>
       </Box>
       <Box
-        minHeight={100}
+        minHeight={80}
         flex={1}
         display="flex"
         flexDirection="column"
@@ -86,7 +86,11 @@ const CartItem = props => {
         alignItems="flex-end"
         style={{ justifyContent: "space-between" }}
       >
-        <IconButton variant="contained" className={classes.btnRemove}>
+        <IconButton
+          variant="contained"
+          className={classes.btnRemove}
+          onClick={() => props.onRemove(cartId)}
+        >
           <DeleteIcon />
         </IconButton>
         <span className={classes.price}>{subtotal}</span>

@@ -6,8 +6,16 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-
+    overflowY: "scroll",
     height: "100%",
+    "&::-webkit-scrollbar ": {
+      width: "10px",
+      backgroundColor: "transparent",
+    },
+    "&::-webkit-scrollbar-thumb  ": {
+      background: "transparent",
+      borderRadius: "2px",
+    },
     [theme.breakpoints.down("sm")]: {
       paddingTop: theme.spacing(3),
       padding: 0,

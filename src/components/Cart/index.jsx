@@ -10,23 +10,7 @@ import formatRupiah from "../../utils/formatRupiah";
 const Cart = props => {
   const classes = useStyles();
 
-  const { isUpdatedCart, cartItems, totalPrice } = props;
-
-  const [loader, setLoader] = React.useState(true);
-
-  const getCart = async () => {
-    await realtimeDatabase.ref("carts").on("value", snapshot => {
-      props.getCartItems(snapshot.val());
-      setLoader(false);
-    });
-  };
-
-  React.useEffect(() => {
-    getCart();
-    return () => {
-      getCart();
-    };
-  }, []);
+  const { isUpdatedCart, cartItems, totalPrice, totalItems, loader } = props;
 
   const handleInrement = id => {
     props.onSetIsUpdated(true);
@@ -69,6 +53,10 @@ const Cart = props => {
     });
   };
 
+  const handleRemoveCart = async id => {
+    await realtimeDatabase.ref("carts/cartItems/" + id).remove();
+  };
+
   let cartBodyContent = (
     <Box
       height="100%"
@@ -102,6 +90,7 @@ const Cart = props => {
               quantity={cart.quantity}
               onIncrement={handleInrement}
               onDecrement={handleDecrement}
+              onRemove={handleRemoveCart}
             />
           );
         })}
@@ -117,8 +106,6 @@ const Cart = props => {
     let cartItemsObj = {};
     const arrCartItems = [...cartItems];
     for (var i = 0, len = arrCartItems.length; i < len; i++) {
-      console.log(i);
-      console.log(arrCartItems[i]);
       cartItemsObj[arrCartItems[i]["id"]] = {
         _id: arrCartItems[i]["_id"],
         burgerName: arrCartItems[i]["burgerName"],
@@ -131,13 +118,11 @@ const Cart = props => {
     }
 
     for (var key in cartItemsObj) arrCartItems.push(cartItemsObj[key]);
-    console.log(cartItemsObj);
 
     await realtimeDatabase
       .ref("carts/cartItems")
       .update(cartItemsObj)
       .then(result => {
-        console.log(result);
         props.onSetIsUpdated(false);
       })
       .catch(err => console.log(err));
@@ -145,13 +130,13 @@ const Cart = props => {
 
   return (
     <>
-      <Box px={3} py={2} className={classes.cartHeader}>
+      <Box px={3} py={1} className={classes.cartHeader}>
         <Box my="auto" display="flex" alignItems="center">
           <Typography variant="h6" style={{ marginRight: "1rem" }}>
             Cart
           </Typography>
           <Typography color="primary" variant="subtitle2">
-            {cartItems.length} Items
+            {totalItems} Items
           </Typography>
         </Box>
         {isUpdatedCart && (
@@ -173,8 +158,9 @@ const Cart = props => {
       <Box
         className={classes.cartFooter}
         flex={1}
-        py={2}
+        pt={2}
         display="flex"
+        alignItems="center"
         width="100%"
         px={3}
       >
@@ -183,6 +169,7 @@ const Cart = props => {
           disabled={cartItems.length < 1}
           variant="contained"
           color="primary"
+          className={classes.btnOrder}
           fullWidth={true}
         >
           <Typography>Order now </Typography>
@@ -197,8 +184,8 @@ const Cart = props => {
 };
 
 const mapStateToProps = state => {
-  console.log(state.cart);
   return {
+    totalItems: state.cart.totalItems,
     cartItems: state.cart.cartItems,
     totalPrice: state.cart.totalPrice,
     isUpdatedCart: state.cart.isUpdatedCart,
