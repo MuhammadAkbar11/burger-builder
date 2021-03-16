@@ -16,8 +16,8 @@ import FinalIngredients from "./FinalIngredients";
 import formatRupiah from "../../../utils/formatRupiah";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { BurgerActionTypes } from "../../../store/actions/types";
 import { realtimeDatabase } from "../../../services/firebase";
+import { _onClearIngredients } from "../../../store/actions";
 
 const BuilderSummary = props => {
   const classes = useStyles();
@@ -290,9 +290,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onClearIngs: () => {
-      return dispatch({ type: BurgerActionTypes.CLEAR_INGS, payload: {} });
-    },
+    onClearIngs: () => dispatch(_onClearIngredients()),
   };
 };
 

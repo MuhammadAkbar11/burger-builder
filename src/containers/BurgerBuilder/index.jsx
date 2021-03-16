@@ -2,21 +2,25 @@ import React, { Fragment } from "react";
 import useStyles from "./styles";
 import { Container } from "@material-ui/core";
 import { Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import { BurgerActionTypes } from "../../store/actions/types";
+import { useSelector, useDispatch } from "react-redux";
 
 import Started from "../../components/Builder/GetStarted";
 import BuilderContainer from "../../components/Builder";
 import BuilderSummary from "../../components/Builder/BuilderSummary";
+import { _onSetBurgerName } from "../../store/actions";
 
 const BurgerBuilder2 = props => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  const burgerName = useSelector(state => state.burger.name);
 
   const setBurgerName = value => {
     const result = {
       value: value,
     };
-    props.onSetBurgerName(result);
+    dispatch(_onSetBurgerName(result));
   };
 
   return (
@@ -24,14 +28,14 @@ const BurgerBuilder2 = props => {
       <Switch>
         <Route exact path={props.match.path}>
           <Container maxWidth="xl" className={classes.root}>
-            <BuilderContainer burgerName={props.burgerName} />
+            <BuilderContainer />
           </Container>
         </Route>
         <Route path={`${props.match.path}/start`}>
           <Container maxWidth="xl" className={classes.root}>
             <Started
               onSetBurgerName={setBurgerName}
-              isStarted={props.burgerName.trim() === ""}
+              isStarted={burgerName.trim() === ""}
             />
           </Container>
         </Route>
@@ -43,21 +47,4 @@ const BurgerBuilder2 = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    burgerName: state.burger.name,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onSetBurgerName: value => {
-      return dispatch({
-        type: BurgerActionTypes.SET_BURGER_NAME,
-        payload: value,
-      });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder2);
+export default BurgerBuilder2;

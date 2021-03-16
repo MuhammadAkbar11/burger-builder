@@ -4,21 +4,26 @@ import BuildControls from "./BuildControls";
 import Burger from "../Burger";
 import useStyles from "./styles";
 import { Redirect } from "react-router-dom";
-import { BurgerActionTypes } from "../../store/actions/types";
-import { connect } from "react-redux";
+import {
+  _onAddingIngredient,
+  _onRemovingIngredient,
+} from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
-const BurgerBuilderContain = props => {
+const BurgerBuilderContain = () => {
   const classes = useStyles();
 
-  const {
-    ingredientId,
-    ingredients,
-    onAddIngredient,
-    onRemoveIngredient,
-  } = props;
+  const dispatch = useDispatch();
+
+  const ingredients = useSelector(state => state.burger.ingredients);
+  const ingredientPrices = useSelector(state => state.burger.ingredient_prices);
+  const totalPrice = useSelector(state => state.burger.totalPrice);
+  const ingredientId = useSelector(state => state.burger.ingredientId);
+  const burgerName = useSelector(state => state.burger.name);
 
   const updatePurchaseStatus = data => data.length > 0;
 
+  //# Adding Ingredient
   const addIngredientHandler = type => {
     const oldIngredients = [...ingredients];
     const updatedIngredients = [
@@ -30,19 +35,18 @@ const BurgerBuilderContain = props => {
     ];
     const isPurchase = updatePurchaseStatus(updatedIngredients);
 
-    const priceAddition = +props.ingredient_prices[type];
-    const totalPrice = +props.totalPrice + priceAddition;
+    const priceAddition = +ingredientPrices[type];
+    const newTotalPrice = +totalPrice + priceAddition;
 
     const updatedResult = {
       ingredientId: ingredientId + 1,
       ingredients: updatedIngredients,
-      totalPrice: totalPrice,
+      totalPrice: newTotalPrice,
       purchasabled: isPurchase,
     };
-    onAddIngredient(updatedResult);
+    dispatch(_onAddingIngredient(updatedResult));
   };
 
-  // Remove
   const removeIngredientHandler = type => {
     const selectedIgredient = ingredients.filter(item => {
       return item.ingredient === type;
@@ -57,19 +61,19 @@ const BurgerBuilderContain = props => {
 
     const isPurchase = updatePurchaseStatus(newIngredients);
 
-    const priceDeduction = +props.ingredient_prices[type];
-    const totalPrice = +props.totalPrice - priceDeduction;
+    const priceDeduction = +ingredientPrices[type];
+    const newTotalPrice = +totalPrice - priceDeduction;
 
     const updatedResult = {
       ingredients: newIngredients,
-      totalPrice: totalPrice,
+      totalPrice: newTotalPrice,
       purchasabled: isPurchase,
     };
 
-    onRemoveIngredient(updatedResult);
+    dispatch(_onRemovingIngredient(updatedResult));
   };
 
-  if (props.burgerName !== "") {
+  if (burgerName !== "") {
     return (
       <Grid container className={`${classes.root}`}>
         <Grid item md={7} lg={8} className={classes.item}>
@@ -90,33 +94,4 @@ const BurgerBuilderContain = props => {
   return <Redirect to="/builder/start" />;
 };
 
-const mapStateToProps = state => {
-  return {
-    ingredientId: state.burger.ingredientId,
-    ingredients: state.burger.ingredients,
-    ingredient_prices: state.burger.ingredient_prices,
-    totalPrice: state.burger.totalPrice,
-    purchase: state.burger.purchasabled,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddIngredient: data =>
-      dispatch({
-        type: BurgerActionTypes.ADD_INGREDIENT,
-        payload: data,
-      }),
-    onRemoveIngredient: data => {
-      return dispatch({
-        type: BurgerActionTypes.REMOVE_INGREDIENT,
-        payload: data,
-      });
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BurgerBuilderContain);
+export default BurgerBuilderContain;

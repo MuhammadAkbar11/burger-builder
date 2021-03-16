@@ -9,9 +9,10 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import formatRupiah from "../../utils/formatRupiah";
-import { BurgerActionTypes } from "../../store/actions/types";
+import { BurgerActionTypes } from "../../store/actions/actionsTypes";
+import { _onRemovingIngredient } from "../../store/actions";
 
 const useStyle = makeStyles(theme => ({
   root: {
@@ -106,7 +107,12 @@ const useStyle = makeStyles(theme => ({
 const Burger = props => {
   const burgerStyles = useStyle();
 
-  const { ingredients, totalPrice, onRemoveIngredientById } = props;
+  const dispatch = useDispatch();
+
+  const ingredients = useSelector(state => state.burger.ingredients);
+  const ingredientPrices = useSelector(state => state.burger.ingredient_prices);
+  const totalPrice = useSelector(state => state.burger.totalPrice);
+  const burgerName = useSelector(state => state.burger.name);
 
   const updatePurchaseStatus = data => data.length > 0;
 
@@ -117,16 +123,15 @@ const Burger = props => {
 
     const updatedIngredients = [...removeSelectedIngredient];
     const isPurchase = updatePurchaseStatus(updatedIngredients);
-    const priceDeduction = +props.ingredient_prices[type];
-    const totalPrice = +props.totalPrice - priceDeduction;
+    const priceDeduction = +ingredientPrices[type];
+    const totalPrice = +totalPrice - priceDeduction;
 
     const updatedResult = {
       ingredients: updatedIngredients,
       totalPrice: totalPrice,
       purchasabled: isPurchase,
     };
-
-    onRemoveIngredientById(updatedResult);
+    dispatch(_onRemovingIngredient(updatedResult));
   };
 
   let transformedIngredients;
@@ -162,7 +167,7 @@ const Burger = props => {
         </CardContent>
         <Box mt={4}>
           <Typography variant="h5" className={burgerStyles.burgerName}>
-            {props.burger.name}
+            {burgerName}
           </Typography>
         </Box>
         <Box mt={2}>
@@ -175,25 +180,4 @@ const Burger = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  burger: {
-    name: state.burger.name,
-  },
-  ingredientId: state.burger.ingredientId,
-  ingredients: state.burger.ingredients,
-  ingredient_prices: state.burger.ingredient_prices,
-  totalPrice: state.burger.totalPrice,
-});
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onRemoveIngredientById: data => {
-      return dispatch({
-        type: BurgerActionTypes.REMOVE_INGREDIENT,
-        payload: data,
-      });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Burger);
+export default Burger;
