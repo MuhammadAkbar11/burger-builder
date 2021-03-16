@@ -1,4 +1,4 @@
-import CartActionsHandler from "../actions/handlers/cart";
+import { cartReducerHandler } from "./handlers";
 import { CartActionTypes } from "../actions/actionsTypes";
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
   totalItems: 0,
 };
 
-const { addCart, updateCart, loadCart, setUpdated } = CartActionsHandler;
+const { addCart, updateCart, loadCart, setUpdated } = cartReducerHandler;
 
 const CartReducer = (state = initialState, action) => {
   switch (action.type) {

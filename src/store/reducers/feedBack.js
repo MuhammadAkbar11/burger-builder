@@ -1,4 +1,4 @@
-import FeedBackActionsHandler from "../actions/handlers/feedback";
+import { feedBackReducerHandler } from "./handlers";
 import { FeedBackActionTypes } from "../actions/actionsTypes";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
 };
 
-const { showAlert, hideAlert } = FeedBackActionsHandler;
+const { showAlert, hideAlert } = feedBackReducerHandler;
 
 const FeedBackReducer = (state = initialState, action) => {
   switch (action.type) {
