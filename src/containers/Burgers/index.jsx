@@ -3,14 +3,16 @@ import { Box, Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import useStyles from "./styles";
 import Cart from "../../components/Cart";
 import { realtimeDatabase } from "../../services/firebase";
-import { connect } from "react-redux";
-import { CartActionTypes } from "../../store/actions/types";
+import { useDispatch } from "react-redux";
+import { _onGetCartItemBy } from "../../store/actions";
 
-const Burgers = props => {
+const Burgers = () => {
   const classes = useStyles();
 
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const dispatch = useDispatch();
 
   const [cartLoader, setCartLoader] = React.useState(true);
   const [moutedCart, setMountedCart] = React.useState(true);
@@ -21,7 +23,8 @@ const Burgers = props => {
       return await realtimeDatabase.ref("carts").on("value", snapshot => {
         if (mounted) {
           setCartLoader(false);
-          props.getCartItems(snapshot.val());
+          const result = snapshot.val();
+          dispatch(_onGetCartItemBy(result));
         }
       });
     };
@@ -58,21 +61,4 @@ const Burgers = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    totalItems: state.cart.totalItems,
-    cartItems: state.cart.cartItems,
-    totalPrice: state.cart.totalPrice,
-    isUpdatedCart: state.cart.isUpdatedCart,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getCartItems: data => {
-      return dispatch({ type: CartActionTypes.LOAD_CART, payload: data });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Burgers);
+export default Burgers;

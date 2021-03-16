@@ -1,56 +1,38 @@
 import React from "react";
 import { Box, Typography, CircularProgress, Button } from "@material-ui/core";
-import { CartActionTypes } from "../../store/actions/types";
+
 import { realtimeDatabase } from "../../services/firebase";
 import CartItem from "./CartItem";
 import useStyles from "./styles";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import formatRupiah from "../../utils/formatRupiah";
+import {
+  _onIncrementCartItemQty,
+  _onDecrementCartItemQty,
+  _onUpdatedUserCart,
+} from "../../store/actions";
 
 const Cart = props => {
   const classes = useStyles();
 
-  const { isUpdatedCart, cartItems, totalPrice, totalItems, loader } = props;
+  const dispatch = useDispatch();
 
-  const handleInrement = id => {
-    props.onSetIsUpdated(true);
-    const arrCartItems = [...cartItems];
-    const selectedItem = arrCartItems.findIndex(item => item.id === id);
-    const oldQty = arrCartItems[selectedItem].quantity;
-    const igsPrice = arrCartItems[selectedItem].ingredientsPrice;
-    const newQty = oldQty + 1;
-    arrCartItems[selectedItem].quantity = +newQty;
-    arrCartItems[selectedItem].totalPrice = +newQty * +igsPrice;
+  const state = useSelector(state => ({
+    totalItems: state.cart.totalItems,
+    cartItems: state.cart.cartItems,
+    totalPrice: state.cart.totalPrice,
+    isUpdatedCart: state.cart.isUpdatedCart,
+  }));
 
-    const getTotalPrice = arrCartItems.reduce((sum, cartItem) => {
-      return sum + +cartItem.totalPrice;
-    }, 0);
+  const { isUpdatedCart, cartItems, totalPrice, totalItems } = state;
+  const { loader } = props;
 
-    props.updateCartItems({
-      cartItems: arrCartItems,
-      totalPrice: getTotalPrice,
-    });
+  const handleIncrement = id => {
+    return dispatch(_onIncrementCartItemQty(id));
   };
 
   const handleDecrement = id => {
-    props.onSetIsUpdated(true);
-    const arrCartItems = [...cartItems];
-    const selectedItem = arrCartItems.findIndex(item => item.id === id);
-    const oldQty = arrCartItems[selectedItem].quantity;
-    const igsPrice = arrCartItems[selectedItem].ingredientsPrice;
-
-    const newQty = oldQty - 1;
-    arrCartItems[selectedItem].quantity = +newQty;
-    arrCartItems[selectedItem].totalPrice = +newQty * +igsPrice;
-
-    const getTotalPrice = arrCartItems.reduce((sum, cartItem) => {
-      return sum + +cartItem.totalPrice;
-    }, 0);
-
-    props.updateCartItems({
-      cartItems: arrCartItems,
-      totalPrice: getTotalPrice,
-    });
+    dispatch(_onDecrementCartItemQty(id));
   };
 
   const handleRemoveCart = async id => {
@@ -88,7 +70,7 @@ const Cart = props => {
               igs={cart.ingredients}
               price={cart.totalPrice}
               quantity={cart.quantity}
-              onIncrement={handleInrement}
+              onIncrement={handleIncrement}
               onDecrement={handleDecrement}
               onRemove={handleRemoveCart}
             />
@@ -101,32 +83,6 @@ const Cart = props => {
   if (!loader) {
     cartBodyContent = <Box>{cartItemsContent}</Box>;
   }
-
-  const updateCart = async () => {
-    let cartItemsObj = {};
-    const arrCartItems = [...cartItems];
-    for (var i = 0, len = arrCartItems.length; i < len; i++) {
-      cartItemsObj[arrCartItems[i]["id"]] = {
-        _id: arrCartItems[i]["_id"],
-        burgerName: arrCartItems[i]["burgerName"],
-        ingredients: arrCartItems[i]["ingredients"],
-        ingredientsPrice: arrCartItems[i]["ingredientsPrice"],
-        quantity: arrCartItems[i]["quantity"],
-        totalPrice: arrCartItems[i]["totalPrice"],
-        userId: arrCartItems[i]["userId"],
-      };
-    }
-
-    for (var key in cartItemsObj) arrCartItems.push(cartItemsObj[key]);
-
-    await realtimeDatabase
-      .ref("carts/cartItems")
-      .update(cartItemsObj)
-      .then(result => {
-        props.onSetIsUpdated(false);
-      })
-      .catch(err => console.log(err));
-  };
 
   return (
     <>
@@ -143,7 +99,7 @@ const Cart = props => {
           <Box>
             <Button
               variant="outlined"
-              onClick={updateCart}
+              onClick={() => dispatch(_onUpdatedUserCart())}
               color="primary"
               size="small"
             >
@@ -166,7 +122,7 @@ const Cart = props => {
       >
         <Button
           size="large"
-          disabled={cartItems.length < 1}
+          disabled={cartItems.length < 1 || isUpdatedCart}
           variant="contained"
           color="primary"
           className={classes.btnOrder}
@@ -183,27 +139,4 @@ const Cart = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    totalItems: state.cart.totalItems,
-    cartItems: state.cart.cartItems,
-    totalPrice: state.cart.totalPrice,
-    isUpdatedCart: state.cart.isUpdatedCart,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getCartItems: data => {
-      return dispatch({ type: CartActionTypes.LOAD_CART, payload: data });
-    },
-    updateCartItems: data => {
-      return dispatch({ type: CartActionTypes.UPDATE_CART, payload: data });
-    },
-    onSetIsUpdated: status => {
-      return dispatch({ type: CartActionTypes.SET_ISUPDATED, payload: status });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default Cart;
