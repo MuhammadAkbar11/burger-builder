@@ -9,6 +9,7 @@ const burgerBuilderReducerHandler = {
   removeIngredient: (state, payload) => {
     return { ...state, ...payload };
   },
+  // clear all ingredients
   clearAllIngs: state => {
     return {
       ...state,
@@ -17,6 +18,7 @@ const burgerBuilderReducerHandler = {
       totalPrice: 7000,
     };
   },
+  // set burger name
   setBurgerName: (state, payload) => {
     return {
       ...state,
