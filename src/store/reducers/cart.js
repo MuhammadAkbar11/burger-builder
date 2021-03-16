@@ -5,6 +5,7 @@ const initialState = {
   isUpdatedCart: false,
   cartItems: [],
   totalPrice: 0,
+  totalItems: 0,
 };
 
 const { addCart, updateCart, loadCart, setUpdated } = CartActionsHandler;

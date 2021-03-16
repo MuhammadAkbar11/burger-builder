@@ -9,10 +9,15 @@ const CartActionsHandler = {
       return sum + +cartItem.totalPrice;
     }, 0);
 
+    const totalItems = arrCartItems.reduce((sum, cart) => {
+      return sum + cart.quantity;
+    }, 0);
+
     return {
       ...state,
       cartItems: arrCartItems,
       totalPrice: getTotalPrice,
+      totalItems: totalItems,
     };
   },
   setUpdated: (state, payload) => {
@@ -35,7 +40,6 @@ const CartActionsHandler = {
     };
   },
   deleteCart: state => {
-    console.log(state, "remove");
     return {
       ...state,
     };
