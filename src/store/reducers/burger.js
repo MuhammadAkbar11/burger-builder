@@ -1,10 +1,11 @@
-import BurgerActionsHandler from "../actions/handlers/burger";
-import { BurgerActionTypes } from "../actions/types";
+import { BurgerActionTypes } from "../actions/actionsTypes";
 
 import meatImg from "../../assets/svg/meat.svg";
 import saladImg from "../../assets/svg/seeds.svg";
 import tomatoImg from "../../assets/svg/tomato-left.svg";
 import cheeseImg from "../../assets/svg/cheese.svg";
+
+import { burgerBuilderReducerHandler } from "./handlers";
 
 const initialState = {
   name: "",
@@ -53,7 +54,7 @@ const {
   removeIngredient,
   setBurgerName,
   clearAllIngs,
-} = BurgerActionsHandler;
+} = burgerBuilderReducerHandler;
 
 const BurgerReducer = (state = initialState, action) => {
   switch (action.type) {

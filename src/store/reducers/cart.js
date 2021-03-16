@@ -1,5 +1,5 @@
 import CartActionsHandler from "../actions/handlers/cart";
-import { CartActionTypes } from "../actions/types";
+import { CartActionTypes } from "../actions/actionsTypes";
 
 const initialState = {
   isUpdatedCart: false,

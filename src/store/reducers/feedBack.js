@@ -1,5 +1,5 @@
 import FeedBackActionsHandler from "../actions/handlers/feedback";
-import { FeedBackActionTypes } from "../actions/types";
+import { FeedBackActionTypes } from "../actions/actionsTypes";
 
 const initialState = {
   alert: {

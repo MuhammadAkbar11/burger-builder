@@ -1,5 +1,5 @@
-import { AppActionTypes } from "../actions/types";
-import AppActionsHandler from "../actions/handlers/application";
+import { AppActionTypes } from "../actions/actionsTypes";
+import { appReducerHandler } from "./handlers";
 
 const initialState = {
   isOpenDrawer: false,
@@ -22,7 +22,7 @@ const initialState = {
   ],
 };
 
-const { openDrawer, closeDrawer } = AppActionsHandler;
+const { openDrawer, closeDrawer } = appReducerHandler;
 
 const ApplicationReducer = (state = initialState, action) => {
   switch (action.type) {
