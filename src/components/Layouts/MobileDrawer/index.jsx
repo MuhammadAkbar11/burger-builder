@@ -7,7 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ChevronRight } from "@material-ui/icons";
 import useStyles from "./styles";
-import { AppActionTypes } from "../../../store/actions/types";
+import { AppActionTypes } from "../../../store/actions/actionsTypes";
 import { connect } from "react-redux";
 import useActiveClass from "../../../hooks/useActiveClass";
 import { useHistory } from "react-router-dom";

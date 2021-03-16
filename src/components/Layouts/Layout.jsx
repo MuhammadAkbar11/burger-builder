@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import MobileDrawer from "./MobileDrawer";
-import { AppActionTypes } from "../../store/actions/types";
+import { AppActionTypes } from "../../store/actions/actionsTypes";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
